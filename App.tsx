@@ -18,25 +18,76 @@ const App: React.FC = () => {
         <Services />
         <Process />
         <Integrations />
-        {/* Placeholder sections to show page structure */}
-        <section id="work" className="py-24 px-6 border-b border-white/10 bg-black">
+        
+        {/* Work Section */}
+        <section id="work" className="py-32 px-6 border-b border-white/10 bg-black">
           <div className="max-w-7xl mx-auto">
-            <h3 className="text-2xl font-light text-gray-400 mb-8">Selected Work</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[1, 2].map((i) => (
-                <div key={i} className="group cursor-pointer">
-                  <div className="aspect-video bg-gray-900 border border-white/10 mb-4 group-hover:border-white/40 transition-colors duration-300 relative overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center text-gray-600 font-mono text-sm">
-                      [Project Preview {i}]
-                    </div>
-                  </div>
-                  <h4 className="text-xl font-medium">Enterprise Workflow System</h4>
-                  <p className="text-gray-500 mt-2 text-sm">Automating 500+ daily tasks using n8n and Postgres.</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+              <div>
+                <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
+                  Case Studies
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                  Selected Work
+                </h2>
+              </div>
+              <a href="#" className="hidden md:inline-flex items-center text-sm font-semibold text-white border-b border-white/30 pb-1 hover:border-white transition-colors">
+                View all projects
+              </a>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              {/* Project 1 */}
+              <div className="group cursor-pointer">
+                <div className="aspect-video bg-gray-900 border border-white/10 mb-6 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
+                    alt="Enterprise Workflow System" 
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
                 </div>
-              ))}
+                <div className="flex justify-between items-start">
+                  <div>
+                     <h4 className="text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors">Enterprise CRM Sync</h4>
+                     <p className="text-gray-500 text-sm leading-relaxed max-w-md">Bi-directional synchronization between HubSpot and PostgreSQL handling 50k+ records daily with zero downtime.</p>
+                  </div>
+                  <div className="p-2 border border-white/10 rounded-full group-hover:bg-white group-hover:text-black transition-all duration-300">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Project 2 */}
+              <div className="group cursor-pointer">
+                <div className="aspect-video bg-gray-900 border border-white/10 mb-6 relative overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" 
+                    alt="AI Lead Agent" 
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                     <h4 className="text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors">AI Lead Qualification</h4>
+                     <p className="text-gray-500 text-sm leading-relaxed max-w-md">Custom GPT-4 assistant integrated into Slack for real-time lead scoring and automated outreach sequences.</p>
+                  </div>
+                  <div className="p-2 border border-white/10 rounded-full group-hover:bg-white group-hover:text-black transition-all duration-300">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-12 md:hidden text-center">
+                <a href="#" className="inline-flex items-center text-sm font-semibold text-white border-b border-white/30 pb-1 hover:border-white transition-colors">
+                    View all projects
+                </a>
             </div>
           </div>
         </section>
+
         <CTA />
       </main>
       <Footer />
