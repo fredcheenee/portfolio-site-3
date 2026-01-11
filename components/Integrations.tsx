@@ -26,7 +26,7 @@ const Integrations: React.FC = () => {
   ];
 
   return (
-    <section className="bg-black py-32 px-6 border-b border-white/10 relative">
+    <section id="integrations" className="bg-black py-32 px-6 border-b border-white/10 relative">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}

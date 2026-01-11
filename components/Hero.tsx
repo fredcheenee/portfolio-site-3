@@ -5,26 +5,17 @@ const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black pt-20 pb-16">
       
-      {/* Background Ambience - "Glow" effect inspired by Image 2 & 3 but monochromatic */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Top center spotlight */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.03] blur-[120px] rounded-full mix-blend-screen"></div>
-        {/* Bottom center horizon glow */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-gradient-to-t from-gray-900 via-black to-transparent opacity-80"></div>
-        
-        {/* Abstract Grid Mesh - Adding technical texture */}
-        <div 
-            className="absolute inset-0 opacity-[0.1]" 
-            style={{ 
-                backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`, 
-                backgroundSize: '40px 40px' 
-            }}
-        ></div>
-      </div>
+      {/* Background Ambience */}
+      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-white/[0.04] blur-[120px] rounded-full pointer-events-none"></div>
 
-      {/* Floating Elements - Abstract shapes inspired by Image 1 */}
-      <div className="absolute left-10 top-1/3 w-24 h-24 border border-white/10 opacity-20 hidden lg:block animate-pulse-slow"></div>
-      <div className="absolute right-20 bottom-1/3 w-32 h-32 border border-white/10 opacity-20 hidden lg:block" style={{ transform: 'rotate(45deg)'}}></div>
+      {/* Abstract Grid Mesh - Adding technical texture (low opacity) */}
+      <div 
+          className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none" 
+          style={{ 
+              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`, 
+              backgroundSize: '40px 40px' 
+          }}
+      ></div>
 
       <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center">
         

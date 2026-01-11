@@ -20,7 +20,7 @@ const Process: React.FC = () => {
   ];
 
   return (
-    <section className="bg-black py-32 px-6 border-b border-white/10 relative overflow-hidden">
+    <section id="process" className="bg-black py-32 px-6 border-b border-white/10 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}

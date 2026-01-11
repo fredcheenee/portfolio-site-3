@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <Process />
         <Integrations />
         {/* Placeholder sections to show page structure */}
-        <section className="py-24 px-6 border-b border-white/10 bg-black">
+        <section id="work" className="py-24 px-6 border-b border-white/10 bg-black">
           <div className="max-w-7xl mx-auto">
             <h3 className="text-2xl font-light text-gray-400 mb-8">Selected Work</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
