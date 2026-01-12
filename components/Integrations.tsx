@@ -1,5 +1,6 @@
 import React from 'react';
-import { Layers, Database, MessageSquare, CreditCard, CheckCircle2 } from 'lucide-react';
+import { Layers, Database, MessageSquare, CreditCard } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 const Integrations: React.FC = () => {
   const categories = [
@@ -30,7 +31,7 @@ const Integrations: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
-        <div className="mb-20">
+        <ScrollReveal className="mb-20">
            <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
               Ecosystem
             </span>
@@ -38,10 +39,10 @@ const Integrations: React.FC = () => {
               Connected to <br />
               <span className="text-gray-500">everything you use.</span>
             </h2>
-        </div>
+        </ScrollReveal>
 
         {/* Tech Grid */}
-        <div className="relative border border-white/10 bg-white/[0.02]">
+        <ScrollReveal delay={0.2} className="relative border border-white/10 bg-white/[0.02]">
           
           {/* Decorative Intersections (Plus signs at corners) */}
           <div className="absolute -top-1 -left-1 text-white/20 text-xs">+</div>
@@ -68,7 +69,7 @@ const Integrations: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
 
       </div>
     </section>

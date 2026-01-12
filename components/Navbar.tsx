@@ -70,18 +70,19 @@ const Navbar: React.FC = () => {
             Ecosystem
           </a>
           <a 
-            href="#work" 
-            onClick={(e) => scrollToSection(e, 'work')}
-            className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
-          >
-            Work
-          </a>
-          <a 
             href="#contact" 
             onClick={(e) => scrollToSection(e, 'contact')}
             className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
           >
             Contact
+          </a>
+          
+          <a 
+            href="#work" 
+            onClick={(e) => scrollToSection(e, 'work')}
+            className="px-5 py-2.5 text-sm font-bold text-black bg-white hover:bg-gray-200 transition-colors tracking-wide"
+          >
+            View My Work
           </a>
         </div>
 
@@ -119,18 +120,18 @@ const Navbar: React.FC = () => {
             Ecosystem
           </a>
           <a 
-            href="#work" 
-            onClick={(e) => scrollToSection(e, 'work')}
-            className="text-gray-400 hover:text-white text-lg font-medium"
-          >
-            Work
-          </a>
-          <a 
             href="#contact" 
             onClick={(e) => scrollToSection(e, 'contact')}
             className="text-gray-400 hover:text-white text-lg font-medium"
           >
             Contact
+          </a>
+          <a 
+            href="#work" 
+            onClick={(e) => scrollToSection(e, 'work')}
+            className="text-black bg-white hover:bg-gray-200 text-center py-3 font-bold uppercase tracking-wide transition-colors"
+          >
+            View My Work
           </a>
         </div>
       )}

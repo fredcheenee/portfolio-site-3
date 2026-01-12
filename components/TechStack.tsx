@@ -1,5 +1,6 @@
 import React from 'react';
 import { Database, Workflow, Bot, Share2 } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 const TechStack: React.FC = () => {
   const stacks = [
@@ -30,11 +31,15 @@ const TechStack: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
           {stacks.map((stack, index) => (
-            <div key={index} className="bg-black p-8 hover:bg-gray-950 transition-colors duration-300">
+            <ScrollReveal 
+              key={index} 
+              className="bg-black p-8 hover:bg-gray-950 transition-colors duration-300" 
+              delay={index * 0.1}
+            >
               <div className="text-white mb-4 opacity-80">{stack.icon}</div>
               <h3 className="text-lg font-semibold text-white mb-2">{stack.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{stack.description}</p>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

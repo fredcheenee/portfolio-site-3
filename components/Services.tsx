@@ -1,5 +1,6 @@
 import React from 'react';
 import { Users, Filter, Cable, Monitor, ArrowUpRight } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 const Services: React.FC = () => {
   const services = [
@@ -35,7 +36,7 @@ const Services: React.FC = () => {
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <div className="max-w-2xl">
+          <ScrollReveal className="max-w-2xl">
             <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
               Scope of Work
             </span>
@@ -43,18 +44,21 @@ const Services: React.FC = () => {
               Solutions for the <br />
               <span className="text-gray-500">modern enterprise.</span>
             </h2>
-          </div>
-          <p className="text-gray-400 font-light max-w-sm text-lg leading-relaxed text-left">
-            Bespoke automation infrastructure designed to scale with your revenue, not your headcount.
-          </p>
+          </ScrollReveal>
+          <ScrollReveal delay={0.2} className="max-w-sm">
+            <p className="text-gray-400 font-light text-lg leading-relaxed text-left">
+              Bespoke automation infrastructure designed to scale with your revenue, not your headcount.
+            </p>
+          </ScrollReveal>
         </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {services.map((service, index) => (
-            <div 
+            <ScrollReveal 
               key={index} 
-              className="group p-10 border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300 relative overflow-hidden"
+              className="group p-10 border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300 relative overflow-hidden h-full flex flex-col"
+              delay={index * 0.1}
             >
               {/* Hover Glow */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/[0.02] blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-white/[0.05] transition-colors duration-500 pointer-events-none"></div>
@@ -84,7 +88,7 @@ const Services: React.FC = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

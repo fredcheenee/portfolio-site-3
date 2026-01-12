@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 const CTA: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,7 +26,7 @@ const CTA: React.FC = () => {
         <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             
             {/* Left Column: Copy */}
-            <div>
+            <ScrollReveal>
                 <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-8">
                   Get Started
                 </span>
@@ -46,10 +47,10 @@ const CTA: React.FC = () => {
                     </span>
                     ACCEPTING NEW PROJECTS FOR Q4
                 </div>
-            </div>
+            </ScrollReveal>
 
             {/* Right Column: Form */}
-            <div className="bg-white/[0.02] border border-white/10 p-8 md:p-10 relative">
+            <ScrollReveal delay={0.2} className="bg-white/[0.02] border border-white/10 p-8 md:p-10 relative">
                  <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                     <div>
                         <label htmlFor="name" className="block text-xs font-mono uppercase tracking-wider text-gray-500 mb-2">Name</label>
@@ -89,7 +90,7 @@ const CTA: React.FC = () => {
                         <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </button>
                 </form>
-            </div>
+            </ScrollReveal>
         </div>
     </section>
   );

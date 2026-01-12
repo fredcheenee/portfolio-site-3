@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Play, Cpu, Zap, Activity } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 const Hero: React.FC = () => {
   return (
@@ -20,7 +21,7 @@ const Hero: React.FC = () => {
       <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center">
         
         {/* Pill Badge */}
-        <div className="mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <ScrollReveal delay={0.1} className="mb-8">
           <div className="inline-flex items-center gap-2 border border-white/15 bg-white/5 backdrop-blur-sm px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-gray-300 hover:border-white/30 transition-colors duration-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full opacity-75 bg-green-400"></span>
@@ -28,24 +29,28 @@ const Hero: React.FC = () => {
             </span>
             Available for new projects
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Headline */}
-        <h1 className="max-w-5xl mx-auto text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.2s', lineHeight: 1.1 }}>
-          <span className="block text-gray-500">Manual is broken.</span>
-          <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-gray-400">
-            Automate the rest.
-          </span>
-        </h1>
+        <ScrollReveal delay={0.2} className="mb-8 max-w-5xl">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white" style={{ lineHeight: 1.1 }}>
+            <span className="block text-gray-500">Manual is broken.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-gray-400">
+              Automate the rest.
+            </span>
+          </h1>
+        </ScrollReveal>
 
         {/* Subheading */}
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-light leading-relaxed mb-10 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-          I architect self-healing ecosystems for high-growth enterprises using <span className="text-white font-medium">n8n</span>, <span className="text-white font-medium">Make</span>, and <span className="text-white font-medium">HighLevel</span>.
-          Stop trading time for output.
-        </p>
+        <ScrollReveal delay={0.3} className="mb-10 max-w-2xl">
+          <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed">
+            I architect self-healing ecosystems for high-growth enterprises using <span className="text-white font-medium">n8n</span>, <span className="text-white font-medium">Make</span>, and <span className="text-white font-medium">HighLevel</span>.
+            Stop trading time for output.
+          </p>
+        </ScrollReveal>
 
         {/* CTA Group */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+        <ScrollReveal delay={0.4} width="auto" className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#contact"
             className="group relative inline-flex items-center justify-center bg-white text-black h-14 px-8 text-base font-semibold transition-all duration-200 hover:bg-gray-200 min-w-[180px]"
@@ -61,19 +66,18 @@ const Hero: React.FC = () => {
             <Play className="mr-2 w-4 h-4 fill-current opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
             <span className="transition-transform duration-300 group-hover:translate-x-1">View Case Studies</span>
           </a>
-        </div>
+        </ScrollReveal>
 
-        {/* Trust/Tech Badges - Replaces the bottom logos in Image 2 */}
-        <div className="mt-20 pt-10 border-t border-white/10 w-full max-w-4xl opacity-0 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+        {/* Trust/Tech Badges */}
+        <ScrollReveal delay={0.6} className="mt-20 pt-10 border-t border-white/10 w-full max-w-4xl">
           <p className="text-xs text-gray-600 uppercase tracking-widest mb-6 font-semibold">Powering systems with</p>
           <div className="flex flex-wrap justify-center gap-12 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-             {/* Text-based Logos for minimal aesthetic */}
              <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><Cpu size={20}/> n8n</span>
              <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><Zap size={20}/> Zapier</span>
              <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><Activity size={20}/> Make</span>
              <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2">GHL</span>
           </div>
-        </div>
+        </ScrollReveal>
 
       </div>
       

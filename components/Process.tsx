@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollReveal from './ScrollReveal';
 
 const Process: React.FC = () => {
   const steps = [
@@ -24,7 +25,7 @@ const Process: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
-        <div className="mb-24">
+        <ScrollReveal className="mb-24">
            <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
               Methodology
             </span>
@@ -32,12 +33,12 @@ const Process: React.FC = () => {
               Simple by design. <br />
               <span className="text-gray-500">Complex under the hood.</span>
             </h2>
-        </div>
+        </ScrollReveal>
 
         {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
           {steps.map((step, index) => (
-            <div key={index} className="group relative">
+            <ScrollReveal key={index} delay={index * 0.2} className="group relative">
               {/* Top Line Indicator */}
               <div className="w-full h-px bg-white/10 mb-8 group-hover:bg-white/30 transition-colors duration-500"></div>
               
@@ -54,7 +55,7 @@ const Process: React.FC = () => {
                   {step.description}
                 </p>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 
