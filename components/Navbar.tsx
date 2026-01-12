@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         isScrolled
-          ? 'bg-black/80 backdrop-blur-md border-white/10 py-4'
+          ? 'bg-base/80 backdrop-blur-md border-subtle py-4'
           : 'bg-transparent border-transparent py-6'
       }`}
     >
@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Nav */}
       {mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-black border-b border-white/10 p-6 md:hidden flex flex-col gap-4 animate-fade-in-up shadow-2xl">
+        <div className="absolute top-full left-0 right-0 bg-base border-b border-subtle p-6 md:hidden flex flex-col gap-4 animate-fade-in-up shadow-2xl">
           <a 
             href="#services" 
             onClick={(e) => scrollToSection(e, 'services')}

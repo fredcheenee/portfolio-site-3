@@ -10,7 +10,7 @@ const CTA: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="bg-black py-32 px-6 border-b border-white/10 relative overflow-hidden">
+    <section id="contact" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden">
        {/* Background Ambience */}
        <div 
             className="absolute inset-0 opacity-[0.05] pointer-events-none" 
@@ -27,7 +27,7 @@ const CTA: React.FC = () => {
             
             {/* Left Column: Copy */}
             <ScrollReveal>
-                <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-8">
+                <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-8">
                   Get Started
                 </span>
                 
@@ -40,7 +40,7 @@ const CTA: React.FC = () => {
                   Stop trading time for output. Fill out the form to map out your new architecture and identify immediate bottlenecks.
                 </p>
 
-                <div className="flex items-center gap-3 text-sm font-mono text-gray-400 border border-white/10 bg-white/[0.02] w-fit px-4 py-2">
+                <div className="flex items-center gap-3 text-sm font-mono text-gray-400 border border-subtle bg-surface w-fit px-4 py-2">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full opacity-75 bg-green-400"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -50,14 +50,14 @@ const CTA: React.FC = () => {
             </ScrollReveal>
 
             {/* Right Column: Form */}
-            <ScrollReveal delay={0.2} className="bg-white/[0.02] border border-white/10 p-8 md:p-10 relative">
+            <ScrollReveal delay={0.2} className="bg-surface border border-subtle p-8 md:p-10 relative">
                  <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                     <div>
                         <label htmlFor="name" className="block text-xs font-mono uppercase tracking-wider text-gray-500 mb-2">Name</label>
                         <input 
                             type="text" 
                             id="name"
-                            className="w-full bg-black border border-white/10 px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800"
+                            className="w-full bg-base border border-subtle px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800"
                             placeholder="John Doe"
                         />
                     </div>
@@ -67,7 +67,7 @@ const CTA: React.FC = () => {
                         <input 
                             type="email" 
                             id="email"
-                            className="w-full bg-black border border-white/10 px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800"
+                            className="w-full bg-base border border-subtle px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800"
                             placeholder="john@company.com"
                         />
                     </div>
@@ -77,7 +77,7 @@ const CTA: React.FC = () => {
                         <textarea 
                             id="message"
                             rows={4}
-                            className="w-full bg-black border border-white/10 px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800 resize-none"
+                            className="w-full bg-base border border-subtle px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800 resize-none"
                             placeholder="Tell me about your current manual workflows..."
                         ></textarea>
                     </div>

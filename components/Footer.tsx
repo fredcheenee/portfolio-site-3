@@ -3,7 +3,7 @@ import { Github, Twitter, Linkedin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-black py-20 px-6 border-t border-white/10 relative overflow-hidden">
+    <footer className="bg-base py-20 px-6 border-t border-subtle relative overflow-hidden">
         {/* Background Grid Pattern */}
         <div 
             className="absolute inset-0 opacity-[0.03] pointer-events-none" 
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="pt-8 border-t border-subtle flex flex-col md:flex-row justify-between items-center gap-4">
              <div className="text-xs text-gray-600 font-mono">
                 &copy; {new Date().getFullYear()} FRED D. ALL RIGHTS RESERVED.
             </div>

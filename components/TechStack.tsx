@@ -27,13 +27,13 @@ const TechStack: React.FC = () => {
   ];
 
   return (
-    <section className="bg-black py-24 px-6 border-b border-white/10">
+    <section className="bg-section py-24 px-6 border-b border-subtle">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-subtle border border-subtle">
           {stacks.map((stack, index) => (
             <ScrollReveal 
               key={index} 
-              className="bg-black p-8 hover:bg-gray-950 transition-colors duration-300" 
+              className="bg-surface p-8 hover:bg-[#1a1a1a] transition-colors duration-300" 
               delay={index * 0.1}
             >
               <div className="text-white mb-4 opacity-80">{stack.icon}</div>

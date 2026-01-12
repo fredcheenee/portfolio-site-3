@@ -31,13 +31,13 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section id="services" className="bg-black py-32 px-6 border-b border-white/10 relative overflow-hidden">
+    <section id="services" className="bg-base py-32 px-6 border-b border-subtle relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <ScrollReveal className="max-w-2xl">
-            <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
+            <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
               Scope of Work
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
@@ -57,7 +57,7 @@ const Services: React.FC = () => {
           {services.map((service, index) => (
             <ScrollReveal 
               key={index} 
-              className="group p-10 border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/20 transition-all duration-300 relative overflow-hidden h-full flex flex-col"
+              className="group p-10 border border-subtle bg-surface hover:bg-[#1a1a1a] hover:border-white/10 transition-all duration-300 relative overflow-hidden h-full flex flex-col"
               delay={index * 0.1}
             >
               {/* Hover Glow */}
@@ -66,7 +66,7 @@ const Services: React.FC = () => {
               <div className="relative z-10 flex flex-col h-full justify-between">
                 <div>
                   <div className="flex justify-between items-start mb-8">
-                    <div className="p-3 bg-white/5 border border-white/10 text-white group-hover:bg-white group-hover:text-black transition-colors duration-300">
+                    <div className="p-3 bg-base border border-subtle text-white group-hover:bg-white group-hover:text-black transition-colors duration-300">
                       {service.icon}
                     </div>
                     <ArrowUpRight className="text-gray-600 group-hover:text-white transition-colors duration-300" />
@@ -80,7 +80,7 @@ const Services: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-2 pt-6 border-t border-white/5">
+                <div className="flex flex-wrap gap-2 pt-6 border-t border-subtle">
                   {service.tags.map((tag, i) => (
                     <span key={i} className="text-xs font-mono text-gray-500 group-hover:text-gray-400 uppercase tracking-wider">
                       [{tag}]

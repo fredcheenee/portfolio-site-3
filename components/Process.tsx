@@ -21,12 +21,12 @@ const Process: React.FC = () => {
   ];
 
   return (
-    <section id="process" className="bg-black py-32 px-6 border-b border-white/10 relative overflow-hidden">
+    <section id="process" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <ScrollReveal className="mb-24">
-           <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
+           <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
               Methodology
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
@@ -40,7 +40,7 @@ const Process: React.FC = () => {
           {steps.map((step, index) => (
             <ScrollReveal key={index} delay={index * 0.2} className="group relative">
               {/* Top Line Indicator */}
-              <div className="w-full h-px bg-white/10 mb-8 group-hover:bg-white/30 transition-colors duration-500"></div>
+              <div className="w-full h-px bg-subtle mb-8 group-hover:bg-white/30 transition-colors duration-500"></div>
               
               {/* Big Number Background */}
               <div className="absolute -top-12 -left-2 text-9xl font-bold text-white/[0.02] select-none pointer-events-none group-hover:text-white/[0.04] transition-colors duration-500 font-sans">

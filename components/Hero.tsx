@@ -4,7 +4,7 @@ import ScrollReveal from './ScrollReveal';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black pt-20 pb-16">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-base pt-20 pb-16">
       
       {/* Background Ambience */}
       <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-white/[0.04] blur-[120px] rounded-full pointer-events-none"></div>
@@ -22,7 +22,7 @@ const Hero: React.FC = () => {
         
         {/* Pill Badge */}
         <ScrollReveal delay={0.1} className="mb-8">
-          <div className="inline-flex items-center gap-2 border border-white/15 bg-white/5 backdrop-blur-sm px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-gray-300 hover:border-white/30 transition-colors duration-300">
+          <div className="inline-flex items-center gap-2 border border-subtle bg-surface backdrop-blur-sm px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-gray-300 hover:border-white/20 transition-colors duration-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full opacity-75 bg-green-400"></span>
               <span className="relative inline-flex rounded-sm h-2 w-2 bg-green-500"></span>
@@ -69,7 +69,7 @@ const Hero: React.FC = () => {
         </ScrollReveal>
 
         {/* Trust/Tech Badges */}
-        <ScrollReveal delay={0.6} className="mt-20 pt-10 border-t border-white/10 w-full max-w-4xl">
+        <ScrollReveal delay={0.6} className="mt-20 pt-10 border-t border-subtle w-full max-w-4xl">
           <p className="text-xs text-gray-600 uppercase tracking-widest mb-6 font-semibold">Powering systems with</p>
           <div className="flex flex-wrap justify-center gap-12 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
              <span className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><Cpu size={20}/> n8n</span>

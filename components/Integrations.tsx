@@ -27,12 +27,12 @@ const Integrations: React.FC = () => {
   ];
 
   return (
-    <section id="integrations" className="bg-black py-32 px-6 border-b border-white/10 relative">
+    <section id="integrations" className="bg-section py-32 px-6 border-b border-subtle relative">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <ScrollReveal className="mb-20">
-           <span className="inline-block py-1 px-2 border border-white/10 bg-white/5 text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
+           <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
               Ecosystem
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
@@ -42,7 +42,7 @@ const Integrations: React.FC = () => {
         </ScrollReveal>
 
         {/* Tech Grid */}
-        <ScrollReveal delay={0.2} className="relative border border-white/10 bg-white/[0.02]">
+        <ScrollReveal delay={0.2} className="relative border border-subtle bg-surface">
           
           {/* Decorative Intersections (Plus signs at corners) */}
           <div className="absolute -top-1 -left-1 text-white/20 text-xs">+</div>
@@ -50,9 +50,9 @@ const Integrations: React.FC = () => {
           <div className="absolute -bottom-1 -left-1 text-white/20 text-xs">+</div>
           <div className="absolute -bottom-1 -right-1 text-white/20 text-xs">+</div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-subtle">
             {categories.map((category, index) => (
-              <div key={index} className="p-8 group hover:bg-white/[0.02] transition-colors duration-300">
+              <div key={index} className="p-8 group hover:bg-[#1a1a1a] transition-colors duration-300">
                 <div className="flex items-center gap-3 mb-8 text-white opacity-80 group-hover:opacity-100 transition-opacity">
                   {category.icon}
                   <h3 className="font-semibold tracking-tight">{category.title}</h3>
