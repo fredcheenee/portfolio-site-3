@@ -64,7 +64,7 @@ const Hero: React.FC = () => {
             className="group inline-flex items-center justify-center border border-white/20 text-white h-14 px-8 text-base font-semibold hover:bg-white/5 transition-all duration-200 min-w-[180px]"
           >
             <Play className="mr-2 w-4 h-4 fill-current opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
-            <span className="transition-transform duration-300 group-hover:translate-x-1">View Case Studies</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">View my Work</span>
           </a>
         </ScrollReveal>
 
