@@ -20,7 +20,7 @@ const About: React.FC = () => {
           <ScrollReveal>
              <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:max-w-none overflow-hidden bg-surface border border-subtle group">
                 <img 
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" 
+                    src="https://raw.githubusercontent.com/fredcheenee/portfolio-site-3/main/images/565695586_122361770882010441_5943929584698806616_n.jpg" 
                     alt="Fred D. - Automation Specialist" 
                     className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-90 group-hover:opacity-100"
                 />
