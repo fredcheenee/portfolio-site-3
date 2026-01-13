@@ -51,7 +51,7 @@ const Process: React.FC = () => {
               <div className="relative pl-2">
                 <span className="font-mono text-sm text-green-400 mb-3 block opacity-80">STEP {step.id}</span>
                 <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="text-gray-400 font-light leading-relaxed text-sm md:text-base">
+                <p className="!text-white leading-relaxed text-sm md:text-base font-normal" style={{ color: '#ffffff' }}>
                   {step.description}
                 </p>
               </div>

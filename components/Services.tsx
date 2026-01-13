@@ -25,8 +25,8 @@ const Services: React.FC = () => {
     {
       icon: <Monitor className="w-8 h-8" />,
       title: "Landing Page Builds",
-      description: "Performance-obsessed frontends built for conversion. Zero bloat, instant load times, and direct integration with your automation backend.",
-      tags: ["Next.js", "Tailwind", "Vercel"]
+      description: "Performance-obsessed funnels built in HighLevel (GHL) or custom code. Zero bloat, instant load times, and direct integration with your backend.",
+      tags: ["HighLevel", "Next.js", "Tailwind"]
     }
   ];
 
