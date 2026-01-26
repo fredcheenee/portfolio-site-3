@@ -11,6 +11,45 @@ import Footer from './components/Footer';
 import ScrollReveal from './components/ScrollReveal';
 
 const App: React.FC = () => {
+  const projects = [
+    {
+      title: "Enterprise CRM Sync",
+      category: "HubSpot • SQL",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+      desc: "Bi-directional sync handling 50k+ records daily with zero downtime."
+    },
+    {
+      title: "AI Lead Qualification",
+      category: "OpenAI • Slack",
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+      desc: "Custom GPT-4 assistant for real-time lead scoring and outreach."
+    },
+    {
+      title: "Automated Invoicing",
+      category: "Stripe • Xero",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
+      desc: "End-to-end finance operations with automated reconciliation."
+    },
+    {
+      title: "Lead Capture Funnel",
+      category: "Typeform • GHL",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+      desc: "High-conversion intake system with instant routing logic."
+    },
+    {
+      title: "Customer Onboarding",
+      category: "Zapier • Mailchimp",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
+      desc: "Multi-stage welcome sequences personalized by user behavior."
+    },
+    {
+      title: "Inventory Sync",
+      category: "Shopify • Airtable",
+      image: "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=1974&auto=format&fit=crop",
+      desc: "Real-time stock management across multiple sales channels."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-base text-white selection:bg-white selection:text-black font-sans">
       <Navbar />
@@ -22,7 +61,7 @@ const App: React.FC = () => {
         <About />
         <Integrations />
         
-        {/* Work Section */}
+        {/* Work Section - Grid Layout */}
         <section id="work" className="py-32 px-6 border-b border-subtle bg-base">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -36,58 +75,36 @@ const App: React.FC = () => {
               </ScrollReveal>
               <ScrollReveal delay={0.2} width="auto">
                 <a href="#" className="hidden md:inline-flex items-center text-sm font-semibold text-white border-b border-white/30 pb-1 hover:border-white transition-colors">
-                  View all projects
+                  View full portfolio
                 </a>
               </ScrollReveal>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              {/* Project 1 */}
-              <ScrollReveal delay={0.1} className="group cursor-pointer">
-                <div className="aspect-video bg-surface border border-subtle mb-6 relative overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" 
-                    alt="Enterprise Workflow System" 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                     <h4 className="text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors">Enterprise CRM Sync</h4>
-                     <p className="text-gray-500 text-sm leading-relaxed max-w-md">Bi-directional synchronization between HubSpot and PostgreSQL handling 50k+ records daily with zero downtime.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((project, index) => (
+                <ScrollReveal key={index} delay={index * 0.1} className="group cursor-pointer">
+                  <div className="bg-surface border border-subtle h-full hover:border-white/20 transition-all duration-300">
+                    <div className="aspect-[1.8/1] relative overflow-hidden bg-black/50">
+                      <img 
+                        src={project.image} 
+                        alt={project.title} 
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+                    <div className="p-6">
+                       <div className="text-xs font-mono text-green-400 mb-3 uppercase tracking-wider">{project.category}</div>
+                       <h4 className="text-lg font-bold text-white mb-2 group-hover:text-gray-300 transition-colors">{project.title}</h4>
+                       <p className="text-gray-500 text-sm leading-relaxed">{project.desc}</p>
+                    </div>
                   </div>
-                  <div className="p-2 border border-subtle bg-surface rounded-full group-hover:bg-white group-hover:text-black transition-all duration-300">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </div>
-                </div>
-              </ScrollReveal>
-
-              {/* Project 2 */}
-              <ScrollReveal delay={0.2} className="group cursor-pointer">
-                <div className="aspect-video bg-surface border border-subtle mb-6 relative overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" 
-                    alt="AI Lead Agent" 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
-                </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                     <h4 className="text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors">AI Lead Qualification</h4>
-                     <p className="text-gray-500 text-sm leading-relaxed max-w-md">Custom GPT-4 assistant integrated into Slack for real-time lead scoring and automated outreach sequences.</p>
-                  </div>
-                  <div className="p-2 border border-subtle bg-surface rounded-full group-hover:bg-white group-hover:text-black transition-all duration-300">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </div>
-                </div>
-              </ScrollReveal>
+                </ScrollReveal>
+              ))}
             </div>
             
             <div className="mt-12 md:hidden text-center">
                 <a href="#" className="inline-flex items-center text-sm font-semibold text-white border-b border-white/30 pb-1 hover:border-white transition-colors">
-                    View all projects
+                    View full portfolio
                 </a>
             </div>
           </div>

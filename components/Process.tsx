@@ -31,7 +31,7 @@ const Process: React.FC = () => {
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
               Simple by design. <br />
-              <span className="text-gray-500">Complex under the hood.</span>
+              <span className="text-gray-300">Complex under the hood.</span>
             </h2>
         </ScrollReveal>
 
@@ -51,7 +51,7 @@ const Process: React.FC = () => {
               <div className="relative pl-2">
                 <span className="font-mono text-sm text-green-400 mb-3 block opacity-80">STEP {step.id}</span>
                 <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="!text-white leading-relaxed text-sm md:text-base font-normal" style={{ color: '#ffffff' }}>
+                <p className="text-white text-sm md:text-base font-normal leading-relaxed opacity-100">
                   {step.description}
                 </p>
               </div>
