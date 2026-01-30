@@ -27,18 +27,18 @@ const TechStack: React.FC = () => {
   ];
 
   return (
-    <section className="bg-section py-24 px-6 border-b border-subtle">
+    <section className="bg-section py-24 px-6 border-b border-subtle transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-subtle border border-subtle">
           {stacks.map((stack, index) => (
             <ScrollReveal 
               key={index} 
-              className="bg-surface p-8 hover:bg-[#1a1a1a] transition-colors duration-300" 
+              className="bg-surface p-8 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors duration-300" 
               delay={index * 0.1}
             >
-              <div className="text-white mb-4 opacity-80">{stack.icon}</div>
-              <h3 className="text-lg font-semibold text-white mb-2">{stack.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{stack.description}</p>
+              <div className="text-gray-900 dark:text-white mb-4 opacity-80">{stack.icon}</div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{stack.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-500 leading-relaxed">{stack.description}</p>
             </ScrollReveal>
           ))}
         </div>

@@ -3,12 +3,12 @@ import { Github, Twitter, Linkedin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-base py-20 px-6 border-t border-subtle relative overflow-hidden">
+    <footer className="bg-base py-20 px-6 border-t border-subtle relative overflow-hidden transition-colors duration-300">
         {/* Background Grid Pattern */}
         <div 
-            className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+            className="absolute inset-0 opacity-[0.05] pointer-events-none" 
             style={{ 
-                backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`, 
+                backgroundImage: `linear-gradient(rgba(120, 120, 120, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 120, 120, 0.3) 1px, transparent 1px)`, 
                 backgroundSize: '40px 40px' 
             }}
         ></div>
@@ -19,10 +19,10 @@ const Footer: React.FC = () => {
             {/* Brand Column (Span 5) */}
             <div className="md:col-span-5">
                 <div className="flex items-center gap-2 mb-6">
-                    <div className="w-4 h-4 bg-white"></div>
-                    <span className="font-bold text-lg tracking-tight text-white">FRED D.</span>
+                    <div className="w-4 h-4 bg-gray-900 dark:bg-white transition-colors"></div>
+                    <span className="font-bold text-lg tracking-tight text-gray-900 dark:text-white transition-colors">FRED D.</span>
                 </div>
-                <p className="text-gray-500 leading-relaxed text-sm max-w-sm">
+                <p className="text-gray-600 dark:text-gray-500 leading-relaxed text-sm max-w-sm">
                     Architecting self-healing automation systems for high-growth enterprises. 
                     Replacing manual chaos with code-perfect execution.
                 </p>
@@ -32,10 +32,10 @@ const Footer: React.FC = () => {
             <div className="md:col-span-2 md:col-start-7">
                 <h4 className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6">Explore</h4>
                 <ul className="space-y-3">
-                    <li><a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Methodology</a></li>
-                    <li><a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Case Studies</a></li>
-                    <li><a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Services</a></li>
-                    <li><a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Process</a></li>
+                    <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Methodology</a></li>
+                    <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Case Studies</a></li>
+                    <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Services</a></li>
+                    <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Process</a></li>
                 </ul>
             </div>
 
@@ -43,8 +43,8 @@ const Footer: React.FC = () => {
             <div className="md:col-span-2">
                 <h4 className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6">Legal</h4>
                 <ul className="space-y-3">
-                    <li><a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Terms of Service</a></li>
                 </ul>
             </div>
 
@@ -52,9 +52,9 @@ const Footer: React.FC = () => {
              <div className="md:col-span-2">
                 <h4 className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6">Connect</h4>
                 <div className="flex gap-4">
-                    <a href="#" className="text-gray-500 hover:text-white transition-colors"><Twitter size={20} strokeWidth={1.5} /></a>
-                    <a href="#" className="text-gray-500 hover:text-white transition-colors"><Linkedin size={20} strokeWidth={1.5} /></a>
-                    <a href="#" className="text-gray-500 hover:text-white transition-colors"><Github size={20} strokeWidth={1.5} /></a>
+                    <a href="#" className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><Twitter size={20} strokeWidth={1.5} /></a>
+                    <a href="#" className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><Linkedin size={20} strokeWidth={1.5} /></a>
+                    <a href="#" className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><Github size={20} strokeWidth={1.5} /></a>
                 </div>
             </div>
         </div>

@@ -3,12 +3,12 @@ import ScrollReveal from './ScrollReveal';
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="bg-base py-32 px-6 border-b border-subtle relative overflow-hidden">
+    <section id="about" className="bg-base py-32 px-6 border-b border-subtle relative overflow-hidden transition-colors duration-300">
         {/* Background Texture */}
         <div 
             className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none" 
             style={{ 
-                backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`, 
+                backgroundImage: `linear-gradient(rgba(120, 120, 120, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 120, 120, 0.3) 1px, transparent 1px)`, 
                 backgroundSize: '40px 40px' 
             }}
         ></div>
@@ -27,24 +27,24 @@ const About: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-base via-transparent to-transparent opacity-60"></div>
                 
                 {/* Decorative Tech Elements */}
-                <div className="absolute top-4 left-4 w-2 h-2 border-t border-l border-white/30"></div>
-                <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-white/30"></div>
-                <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-white/30"></div>
-                <div className="absolute bottom-4 right-4 w-2 h-2 border-b border-r border-white/30"></div>
+                <div className="absolute top-4 left-4 w-2 h-2 border-t border-l border-gray-900 dark:border-white/30"></div>
+                <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-gray-900 dark:border-white/30"></div>
+                <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-gray-900 dark:border-white/30"></div>
+                <div className="absolute bottom-4 right-4 w-2 h-2 border-b border-r border-gray-900 dark:border-white/30"></div>
              </div>
           </ScrollReveal>
 
           {/* Right Column - Content */}
           <ScrollReveal delay={0.2} className="flex flex-col justify-center">
-            <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-8 w-fit">
+            <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-8 w-fit">
               About Me
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1] mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1] mb-8">
               Reliability is <br/>
               <span className="text-gray-500">the only metric.</span>
             </h2>
             
-            <div className="space-y-6 text-gray-400 leading-relaxed font-light text-lg">
+            <div className="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed font-light text-lg">
                 <p>
                   I am an Automation Specialist obsessed with building self-healing systems for growing businesses.
                 </p>
@@ -57,11 +57,11 @@ const About: React.FC = () => {
             </div>
             
             <div className="mt-10 pt-10 border-t border-subtle flex items-center gap-4">
-                <div className="w-12 h-12 bg-surface rounded-full flex items-center justify-center border border-subtle text-white font-bold text-sm">
+                <div className="w-12 h-12 bg-surface rounded-full flex items-center justify-center border border-subtle text-gray-900 dark:text-white font-bold text-sm">
                     FD
                 </div>
                 <div>
-                    <div className="text-white font-semibold text-sm">Fred D.</div>
+                    <div className="text-gray-900 dark:text-white font-semibold text-sm">Fred D.</div>
                     <div className="text-xs text-gray-500 font-mono uppercase tracking-wider">Automation Specialist</div>
                 </div>
             </div>

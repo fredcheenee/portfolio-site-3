@@ -21,39 +21,41 @@ const Process: React.FC = () => {
   ];
 
   return (
-    <section id="process" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden">
+    <section id="process" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
         <ScrollReveal className="mb-24">
-           <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-6">
+           <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-6">
               Methodology
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1]">
               Simple by design. <br />
-              <span className="text-gray-300">Complex under the hood.</span>
+              <span className="text-gray-500 dark:text-gray-500">Complex under the hood.</span>
             </h2>
         </ScrollReveal>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
           {steps.map((step, index) => (
-            <ScrollReveal key={index} delay={index * 0.2} className="group relative">
-              {/* Top Line Indicator */}
-              <div className="w-full h-px bg-subtle mb-8 group-hover:bg-white/30 transition-colors duration-500"></div>
-              
-              {/* Big Number Background */}
-              <div className="absolute -top-12 -left-2 text-9xl font-bold text-white/[0.02] select-none pointer-events-none group-hover:text-white/[0.04] transition-colors duration-500 font-sans">
-                {step.id}
-              </div>
+            <ScrollReveal key={index} delay={index * 0.2} className="h-full">
+              <div className="group relative h-full bg-gray-200 dark:bg-surface border border-subtle p-8 transition-all duration-300 hover:shadow-xl dark:hover:shadow-none hover:border-black/20 dark:hover:border-white/20">
+                
+                {/* Big Number Background */}
+                <div className="absolute top-0 right-0 p-4 text-7xl font-bold text-black/[0.04] dark:text-white/[0.03] select-none pointer-events-none group-hover:text-black/[0.08] dark:group-hover:text-white/[0.06] transition-colors duration-500 font-sans">
+                  {step.id}
+                </div>
 
-              {/* Content */}
-              <div className="relative pl-2">
-                <span className="font-mono text-sm text-green-400 mb-3 block opacity-80">STEP {step.id}</span>
-                <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="text-white text-sm md:text-base font-normal leading-relaxed opacity-100">
-                  {step.description}
-                </p>
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full">
+                   {/* Accent Line */}
+                   <div className="w-12 h-1 bg-green-500 mb-6"></div>
+                   
+                   <h3 className="text-2xl font-bold !text-black dark:!text-white mb-4">{step.title}</h3>
+                   <p className="!text-black dark:!text-gray-400 text-sm md:text-base font-medium leading-relaxed">
+                    {step.description}
+                   </p>
+                </div>
               </div>
             </ScrollReveal>
           ))}

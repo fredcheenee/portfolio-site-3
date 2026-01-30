@@ -10,37 +10,37 @@ const CTA: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden">
+    <section id="contact" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden transition-colors duration-300">
        {/* Background Ambience */}
        <div 
             className="absolute inset-0 opacity-[0.05] pointer-events-none" 
             style={{ 
-                backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`, 
+                backgroundImage: `linear-gradient(rgba(120, 120, 120, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 120, 120, 0.3) 1px, transparent 1px)`, 
                 backgroundSize: '40px 40px' 
             }}
         ></div>
         
         {/* Glow */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-black/[0.02] dark:bg-white/[0.02] blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             
             {/* Left Column: Copy */}
             <ScrollReveal>
-                <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-400 mb-8">
+                <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-8">
                   Get Started
                 </span>
                 
-                <h2 className="text-5xl md:text-6xl font-bold text-white tracking-tight mb-8 leading-tight">
+                <h2 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight mb-8 leading-tight">
                   Ready to automate <br />
                   <span className="text-gray-500">your growth?</span>
                 </h2>
                 
-                <p className="text-xl text-gray-400 font-light mb-12 leading-relaxed max-w-md">
+                <p className="text-xl text-gray-600 dark:text-gray-400 font-light mb-12 leading-relaxed max-w-md">
                   Stop trading time for output. Fill out the form to map out your new architecture and identify immediate bottlenecks.
                 </p>
 
-                <div className="flex items-center gap-3 text-sm font-mono text-gray-400 border border-subtle bg-surface w-fit px-4 py-2">
+                <div className="flex items-center gap-3 text-sm font-mono text-gray-600 dark:text-gray-400 border border-subtle bg-surface w-fit px-4 py-2">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full opacity-75 bg-green-400"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -57,7 +57,7 @@ const CTA: React.FC = () => {
                         <input 
                             type="text" 
                             id="name"
-                            className="w-full bg-base border border-subtle px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800"
+                            className="w-full bg-base border border-subtle px-4 py-4 text-gray-900 dark:text-white focus:border-black/40 dark:focus:border-white/40 focus:outline-none transition-colors placeholder-gray-400 dark:placeholder-gray-600"
                             placeholder="John Doe"
                         />
                     </div>
@@ -67,7 +67,7 @@ const CTA: React.FC = () => {
                         <input 
                             type="email" 
                             id="email"
-                            className="w-full bg-base border border-subtle px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800"
+                            className="w-full bg-base border border-subtle px-4 py-4 text-gray-900 dark:text-white focus:border-black/40 dark:focus:border-white/40 focus:outline-none transition-colors placeholder-gray-400 dark:placeholder-gray-600"
                             placeholder="john@company.com"
                         />
                     </div>
@@ -77,14 +77,14 @@ const CTA: React.FC = () => {
                         <textarea 
                             id="message"
                             rows={4}
-                            className="w-full bg-base border border-subtle px-4 py-4 text-white focus:border-white/40 focus:outline-none transition-colors placeholder-gray-800 resize-none"
+                            className="w-full bg-base border border-subtle px-4 py-4 text-gray-900 dark:text-white focus:border-black/40 dark:focus:border-white/40 focus:outline-none transition-colors placeholder-gray-400 dark:placeholder-gray-600 resize-none"
                             placeholder="Tell me about your current manual workflows..."
                         ></textarea>
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full group relative flex items-center justify-center bg-white text-black h-14 px-8 text-sm font-bold uppercase tracking-wide hover:bg-gray-200 transition-colors mt-2"
+                        className="w-full group relative flex items-center justify-center bg-black dark:bg-white text-white dark:text-black h-14 px-8 text-sm font-bold uppercase tracking-wide hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors mt-2"
                     >
                         Send Inquiry
                         <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
