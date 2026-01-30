@@ -5,7 +5,6 @@ import TechStack from './components/TechStack';
 import Services from './components/Services';
 import Process from './components/Process';
 import About from './components/About';
-import ToolsMarquee from './components/ToolsMarquee';
 import Integrations from './components/Integrations';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
@@ -60,7 +59,6 @@ const App: React.FC = () => {
         <Services />
         <Process />
         <About />
-        <ToolsMarquee />
         <Integrations />
         
         {/* Work Section - Grid Layout */}
@@ -76,7 +74,12 @@ const App: React.FC = () => {
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={0.2} width="auto">
-                <a href="#" className="hidden md:inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white border-b border-black/30 dark:border-white/30 pb-1 hover:border-black dark:hover:border-white transition-colors">
+                <a 
+                  href="https://www.notion.so/Explore-My-Skills-1c0a08f522ca80f1bc92c7edc5d6cf4b" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hidden md:inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white border-b border-black/30 dark:border-white/30 pb-1 hover:border-black dark:hover:border-white transition-colors"
+                >
                   View full portfolio
                 </a>
               </ScrollReveal>
@@ -105,7 +108,12 @@ const App: React.FC = () => {
             </div>
             
             <div className="mt-12 md:hidden text-center">
-                <a href="#" className="inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white border-b border-black/30 dark:border-white/30 pb-1 hover:border-black dark:hover:border-white transition-colors">
+                <a 
+                  href="https://www.notion.so/Explore-My-Skills-1c0a08f522ca80f1bc92c7edc5d6cf4b" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white border-b border-black/30 dark:border-white/30 pb-1 hover:border-black dark:hover:border-white transition-colors"
+                >
                     View full portfolio
                 </a>
             </div>

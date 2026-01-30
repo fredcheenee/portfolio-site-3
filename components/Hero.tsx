@@ -1,8 +1,34 @@
 import React from 'react';
-import { ArrowRight, Play, Cpu, Zap, Activity } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 const Hero: React.FC = () => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80; // Header height compensation
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const tools = [
+    "GoHighLevel", "Zapier", "HubSpot", "Shopify", "WordPress", 
+    "Make (Integromat)", "Monday.com", "Airtable", "n8n", 
+    "ChatGPT", "Grok", "Claude", "Photoshop", "Canva"
+  ];
+
+  // Quadruple the array to ensure seamless looping on large screens
+  const marqueeTools = [...tools, ...tools, ...tools, ...tools];
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-base pt-20 pb-16 transition-colors duration-300">
       
@@ -53,6 +79,7 @@ const Hero: React.FC = () => {
         <ScrollReveal delay={0.4} width="auto" className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#contact"
+            onClick={(e) => scrollToSection(e, 'contact')}
             className="group relative inline-flex items-center justify-center bg-black dark:bg-white text-white dark:text-black h-14 px-8 text-base font-semibold transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-200 min-w-[180px]"
           >
             Start Building
@@ -61,6 +88,7 @@ const Hero: React.FC = () => {
           
           <a
             href="#work"
+            onClick={(e) => scrollToSection(e, 'work')}
             className="group inline-flex items-center justify-center border border-black/10 dark:border-white/20 text-gray-900 dark:text-white h-14 px-8 text-base font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 min-w-[180px]"
           >
             <Play className="mr-2 w-4 h-4 fill-current opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
@@ -68,21 +96,33 @@ const Hero: React.FC = () => {
           </a>
         </ScrollReveal>
 
-        {/* Trust/Tech Badges */}
-        <ScrollReveal delay={0.6} className="mt-20 pt-10 border-t border-subtle w-full max-w-4xl transition-colors duration-300">
-          <p className="text-xs text-gray-500 dark:text-gray-600 uppercase tracking-widest mb-6 font-semibold transition-colors duration-300">Powering systems with</p>
-          <div className="flex flex-wrap justify-center gap-12 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-             <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2"><Cpu size={20}/> n8n</span>
-             <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2"><Zap size={20}/> Zapier</span>
-             <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2"><Activity size={20}/> Make</span>
-             <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">GHL</span>
+        {/* Tools Marquee (Moved from separate component) */}
+        <ScrollReveal delay={0.6} className="mt-24 w-full max-w-full overflow-hidden">
+          <p className="text-xs text-center text-gray-500 dark:text-gray-600 uppercase tracking-widest mb-8 font-semibold transition-colors duration-300">
+            Tools I Use
+          </p>
+          
+          <div className="relative w-full overflow-hidden group">
+             {/* Gradient Masks */}
+             <div className="absolute inset-y-0 left-0 w-20 md:w-32 bg-gradient-to-r from-base to-transparent z-10 pointer-events-none transition-colors duration-300"></div>
+             <div className="absolute inset-y-0 right-0 w-20 md:w-32 bg-gradient-to-l from-base to-transparent z-10 pointer-events-none transition-colors duration-300"></div>
+             
+             <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
+                {marqueeTools.map((tool, i) => (
+                    <div key={i} className="px-3">
+                         <div className="px-6 py-3 rounded-full bg-surface border border-subtle text-sm md:text-base font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-default">
+                            {tool}
+                         </div>
+                    </div>
+                ))}
+             </div>
           </div>
         </ScrollReveal>
 
       </div>
       
       {/* Decorative vertical line */}
-      <div className="absolute bottom-0 left-1/2 w-px h-24 bg-gradient-to-t from-black/10 dark:from-white/20 to-transparent transition-colors duration-300"></div>
+      <div className="absolute bottom-0 left-1/2 w-px h-16 bg-gradient-to-t from-black/10 dark:from-white/20 to-transparent transition-colors duration-300"></div>
     </section>
   );
 };
