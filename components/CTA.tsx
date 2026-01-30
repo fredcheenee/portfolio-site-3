@@ -1,14 +1,8 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 const CTA: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Logic would go here
-    alert("Thanks for the inquiry. This is a demo.");
-  };
-
   return (
     <section id="contact" className="bg-section py-32 px-6 border-b border-subtle relative overflow-hidden transition-colors duration-300">
        {/* Background Ambience */}
@@ -37,7 +31,7 @@ const CTA: React.FC = () => {
                 </h2>
                 
                 <p className="text-xl text-gray-600 dark:text-gray-400 font-light mb-12 leading-relaxed max-w-md">
-                  Stop trading time for output. Fill out the form to map out your new architecture and identify immediate bottlenecks.
+                  Stop trading time for output. Reach out directly to map out your new architecture and identify immediate bottlenecks.
                 </p>
 
                 <div className="flex items-center gap-3 text-sm font-mono text-gray-600 dark:text-gray-400 border border-subtle bg-surface w-fit px-4 py-2">
@@ -49,47 +43,40 @@ const CTA: React.FC = () => {
                 </div>
             </ScrollReveal>
 
-            {/* Right Column: Form */}
-            <ScrollReveal delay={0.2} className="bg-surface border border-subtle p-8 md:p-10 relative">
-                 <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                    <div>
-                        <label htmlFor="name" className="block text-xs font-mono uppercase tracking-wider text-gray-500 mb-2">Name</label>
-                        <input 
-                            type="text" 
-                            id="name"
-                            className="w-full bg-base border border-subtle px-4 py-4 text-gray-900 dark:text-white focus:border-black/40 dark:focus:border-white/40 focus:outline-none transition-colors placeholder-gray-400 dark:placeholder-gray-600"
-                            placeholder="John Doe"
-                        />
+            {/* Right Column: Contact Details */}
+            <ScrollReveal delay={0.2} className="flex flex-col gap-6">
+                 {/* Email Card */}
+                 <a href="mailto:fredcheenee19@gmail.com" className="group bg-surface border border-subtle p-8 flex items-center gap-6 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300">
+                    <div className="flex-shrink-0 p-4 bg-base rounded-full text-gray-900 dark:text-white border border-subtle group-hover:border-green-500 group-hover:text-green-500 transition-colors">
+                        <Mail size={24} />
                     </div>
-
-                    <div>
-                        <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider text-gray-500 mb-2">Work Email</label>
-                        <input 
-                            type="email" 
-                            id="email"
-                            className="w-full bg-base border border-subtle px-4 py-4 text-gray-900 dark:text-white focus:border-black/40 dark:focus:border-white/40 focus:outline-none transition-colors placeholder-gray-400 dark:placeholder-gray-600"
-                            placeholder="john@company.com"
-                        />
+                    <div className="overflow-hidden">
+                        <h4 className="text-xs font-mono uppercase tracking-wider text-gray-500 mb-1">Email Me</h4>
+                        <p className="text-lg md:text-xl font-bold text-gray-900 dark:text-white truncate">fredcheenee19@gmail.com</p>
                     </div>
+                </a>
 
-                    <div>
-                        <label htmlFor="message" className="block text-xs font-mono uppercase tracking-wider text-gray-500 mb-2">Project Details</label>
-                        <textarea 
-                            id="message"
-                            rows={4}
-                            className="w-full bg-base border border-subtle px-4 py-4 text-gray-900 dark:text-white focus:border-black/40 dark:focus:border-white/40 focus:outline-none transition-colors placeholder-gray-400 dark:placeholder-gray-600 resize-none"
-                            placeholder="Tell me about your current manual workflows..."
-                        ></textarea>
+                {/* Phone Card */}
+                <a href="tel:09272557328" className="group bg-surface border border-subtle p-8 flex items-center gap-6 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300">
+                    <div className="flex-shrink-0 p-4 bg-base rounded-full text-gray-900 dark:text-white border border-subtle group-hover:border-green-500 group-hover:text-green-500 transition-colors">
+                        <Phone size={24} />
                     </div>
+                    <div>
+                        <h4 className="text-xs font-mono uppercase tracking-wider text-gray-500 mb-1">Call Me</h4>
+                        <p className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">0927 255 7328</p>
+                    </div>
+                </a>
 
-                    <button
-                        type="submit"
-                        className="w-full group relative flex items-center justify-center bg-black dark:bg-white text-white dark:text-black h-14 px-8 text-sm font-bold uppercase tracking-wide hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors mt-2"
-                    >
-                        Send Inquiry
-                        <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </button>
-                </form>
+                {/* Location Card */}
+                <div className="group bg-surface border border-subtle p-8 flex items-center gap-6 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300">
+                    <div className="flex-shrink-0 p-4 bg-base rounded-full text-gray-900 dark:text-white border border-subtle group-hover:border-green-500 group-hover:text-green-500 transition-colors">
+                        <MapPin size={24} />
+                    </div>
+                    <div>
+                        <h4 className="text-xs font-mono uppercase tracking-wider text-gray-500 mb-1">Location</h4>
+                        <p className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">Philippines</p>
+                    </div>
+                </div>
             </ScrollReveal>
         </div>
     </section>

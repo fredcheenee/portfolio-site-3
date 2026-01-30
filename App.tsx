@@ -6,6 +6,7 @@ import Services from './components/Services';
 import Process from './components/Process';
 import About from './components/About';
 import Integrations from './components/Integrations';
+import Booking from './components/Booking';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import ScrollReveal from './components/ScrollReveal';
@@ -120,6 +121,7 @@ const App: React.FC = () => {
           </div>
         </section>
 
+        <Booking />
         <CTA />
       </main>
       <Footer />
