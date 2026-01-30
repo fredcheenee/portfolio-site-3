@@ -5,6 +5,7 @@ import TechStack from './components/TechStack';
 import Services from './components/Services';
 import Process from './components/Process';
 import About from './components/About';
+import ToolsMarquee from './components/ToolsMarquee';
 import Integrations from './components/Integrations';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
@@ -59,6 +60,7 @@ const App: React.FC = () => {
         <Services />
         <Process />
         <About />
+        <ToolsMarquee />
         <Integrations />
         
         {/* Work Section - Grid Layout */}
