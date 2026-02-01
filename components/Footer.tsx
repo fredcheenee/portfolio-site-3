@@ -1,5 +1,4 @@
 import React from 'react';
-import { Github, Twitter, Linkedin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -46,16 +45,6 @@ const Footer: React.FC = () => {
                     <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Privacy Policy</a></li>
                     <li><a href="#" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">Terms of Service</a></li>
                 </ul>
-            </div>
-
-             {/* Socials Column */}
-             <div className="md:col-span-2">
-                <h4 className="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6">Connect</h4>
-                <div className="flex gap-4">
-                    <a href="#" className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><Twitter size={20} strokeWidth={1.5} /></a>
-                    <a href="#" className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><Linkedin size={20} strokeWidth={1.5} /></a>
-                    <a href="#" className="text-gray-500 hover:text-black dark:hover:text-white transition-colors"><Github size={20} strokeWidth={1.5} /></a>
-                </div>
             </div>
         </div>
 
