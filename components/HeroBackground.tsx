@@ -70,7 +70,7 @@ const HeroBackground: React.FC = () => {
     scene.add(resizeContainer);
 
     // Shift to the right to clear text area
-    resizeContainer.position.x = 250;
+    resizeContainer.position.x = 400;
 
     camera.position.z = 400;
 
