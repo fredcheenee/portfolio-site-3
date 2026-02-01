@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import TechStack from './components/TechStack';
@@ -10,8 +10,20 @@ import Booking from './components/Booking';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
 import ScrollReveal from './components/ScrollReveal';
+import Preloader from './components/Preloader';
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const projects = [
     {
       title: "Zapier Automations",
@@ -50,6 +62,10 @@ const App: React.FC = () => {
       desc: "Real-time stock management across multiple sales channels."
     }
   ];
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <div className="min-h-screen bg-base text-gray-900 dark:text-white selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black font-sans transition-colors duration-300">
