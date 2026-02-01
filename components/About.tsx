@@ -119,7 +119,7 @@ const About: React.FC = () => {
             <div ref={imageRef} className="relative z-20 w-full max-w-md mx-auto lg:max-w-none h-full flex flex-col justify-center">
                 <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-subtle bg-surface relative shadow-2xl shadow-green-900/10 group">
                     <img 
-                        src="https://raw.githubusercontent.com/fredcheenee/portfolio-site-3/main/images/Gemini_Generated_Image_hq2zh9hq2zh9hq2z.png" 
+                        src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop" 
                         alt="Fred - Automation Specialist" 
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
