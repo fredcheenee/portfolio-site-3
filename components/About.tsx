@@ -1,10 +1,78 @@
-import React from 'react';
-import ScrollReveal from './ScrollReveal';
+import React, { useLayoutEffect, useRef } from 'react';
 import { Search, TrendingUp, Target } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const About: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  // headerRef is no longer animated but kept for structure if needed, or removed from ref if unused for anim
+  const imageRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const approachRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      // Desktop Animation (Pinned Sequence)
+      mm.add("(min-width: 1024px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "+=1500", // Adjusted scroll distance
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+          }
+        });
+
+        // 1. Initial State
+        // Ensure Approach is hidden and positioned slightly down
+        gsap.set(approachRef.current, { autoAlpha: 0, y: 50 });
+
+        // 2. Animate: Fade out Text -> Fade in Approach
+        tl.to(textRef.current, {
+          autoAlpha: 0,
+          y: -20,
+          duration: 1,
+          ease: "power2.inOut"
+        })
+        .to(approachRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out"
+        }, "-=0.5"); // Start coming in while text is fading out
+      });
+
+      // Mobile Animation (Simple Stack)
+      mm.add("(max-width: 1023px)", () => {
+        // Remove manual opacity sets from CSS if any, let GSAP handle from
+        gsap.from(imageRef.current, {
+          scrollTrigger: { trigger: imageRef.current, start: "top 80%" },
+          y: 30, opacity: 0, duration: 0.8
+        });
+        gsap.from(textRef.current, {
+          scrollTrigger: { trigger: textRef.current, start: "top 75%" },
+          y: 30, opacity: 0, duration: 0.8, delay: 0.2
+        });
+        gsap.from(approachRef.current, {
+          scrollTrigger: { trigger: approachRef.current, start: "top 80%" },
+          y: 50, opacity: 0, duration: 0.8
+        });
+      });
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="about" className="bg-base py-32 px-6 border-b border-subtle relative overflow-hidden transition-colors duration-300">
+    <section ref={sectionRef} id="about" className="bg-base relative border-b border-subtle overflow-hidden transition-colors duration-300">
         {/* Background Texture */}
         <div 
             className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none" 
@@ -14,92 +82,118 @@ const About: React.FC = () => {
             }}
         ></div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      {/* Main Container - Full Height for Pinning */}
+      <div ref={containerRef} className="max-w-7xl mx-auto relative z-10 min-h-screen flex flex-col justify-center py-20 px-6">
         
-        {/* Header Section */}
-        <ScrollReveal className="text-center mb-16">
+        {/* Header Section - Static */}
+        <div className="text-center mb-12 lg:mb-16 relative z-30">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1] mb-6">
               ABOUT <span className="text-green-600 dark:text-green-500">ME</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
               Hi, I'm Fred! I am an Automation Specialist and Technical Virtual Assistant focused on building reliable systems, automation, and clean execution.
             </p>
-        </ScrollReveal>
+        </div>
 
-        {/* Main Content Container */}
-        <ScrollReveal delay={0.2}>
-          <div className="rounded-3xl bg-surface border border-subtle p-8 md:p-16 relative overflow-hidden shadow-2xl shadow-green-900/5 dark:shadow-green-900/20">
-            {/* Subtle Green Top Border/Glow */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50"></div>
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start relative">
             
-            {/* My Journey Subsection */}
-            <div className="mb-20 max-w-4xl mx-auto text-center md:text-left">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center justify-center md:justify-start gap-3">
-                 My Journey
-              </h3>
-              <div className="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed text-base md:text-lg">
-                <p>
-                  It started when I saw how much time businesses were losing to repetitive tasks. I realized automation isn’t just about saving time — it’s about creating systems that scale and don’t break.
-                </p>
-                <p>
-                  Now, I specialize in building workflows using GoHighLevel, Zapier, and CRM platforms that help businesses reduce manual work, respond faster, and operate with consistency.
-                </p>
-              </div>
+            {/* Left Column: Image (Sticky on Desktop within container logic or just static) */}
+            <div ref={imageRef} className="relative z-20 w-full max-w-md mx-auto lg:max-w-none h-full flex flex-col justify-center">
+                <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-subtle bg-surface relative shadow-2xl shadow-green-900/10 group">
+                    <img 
+                        src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop" 
+                        alt="Fred - Automation Specialist" 
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
+                     {/* Floating Badge */}
+                     <div className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 hidden lg:block">
+                        <p className="text-white text-sm font-medium">
+                            "Automating the mundane so you can focus on the magnificent."
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            {/* Unique Approach Subsection - Grid */}
-            <div className="mb-20">
-               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-10 text-center">My Unique Approach</h3>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Card 1 */}
-                  <div className="bg-base border border-subtle p-8 rounded-2xl hover:border-green-500/50 transition-colors duration-300 group text-center md:text-left h-full">
-                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400 mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform">
-                        <Search size={24} />
+             {/* Right Column: Text & Approach Swap */}
+             <div className="relative z-20 flex flex-col justify-center min-h-[500px]">
+                
+                {/* 1. Journey Text */}
+                <div ref={textRef} className="bg-surface border border-subtle p-8 md:p-10 rounded-3xl shadow-lg dark:shadow-green-900/5 relative z-10">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+                         <span className="w-8 h-1 bg-green-500 rounded-full inline-block"></span>
+                         My Journey
+                    </h3>
+                    <div className="space-y-6 text-gray-600 dark:text-gray-400 leading-relaxed text-base md:text-lg">
+                        <p>
+                        It started when I saw how much time businesses were losing to repetitive tasks. I realized automation isn’t just about saving time — it’s about creating systems that scale and don’t break.
+                        </p>
+                        <p>
+                        Now, I specialize in building workflows using GoHighLevel, Zapier, and CRM platforms that help businesses reduce manual work, respond faster, and operate with consistency.
+                        </p>
+                        <p>
+                        I help service-based businesses and agencies replace manual work with smart automation that runs in the background.
+                        </p>
+                        <p className="font-medium text-gray-900 dark:text-white pt-4 border-t border-subtle">
+                        Whether it’s lead capture, CRM setup, appointment booking, follow-ups, or integrations — I build systems that work even when things go wrong.
+                        </p>
                     </div>
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Audit First</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                      I don’t automate broken processes — I analyze and fix them first.
-                    </p>
-                  </div>
+                </div>
 
-                   {/* Card 2 */}
-                   <div className="bg-base border border-subtle p-8 rounded-2xl hover:border-green-500/50 transition-colors duration-300 group text-center md:text-left h-full">
-                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400 mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform">
-                        <TrendingUp size={24} />
+                {/* 2. Unique Approach (Absolute on Desktop to swap position) */}
+                <div ref={approachRef} className="mt-8 lg:mt-0 lg:absolute lg:inset-0 lg:z-20 flex flex-col justify-center pointer-events-none lg:pointer-events-auto">
+                    {/* Header for Approach inside the swap container if needed, or just cards */}
+                     <div className="bg-surface/50 backdrop-blur-sm border border-subtle p-2 rounded-3xl lg:bg-transparent lg:border-none lg:p-0">
+                        <div className="lg:hidden text-center mb-6 pt-6">
+                            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">My Unique Approach</h3>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 gap-4">
+                            {/* Card 1 */}
+                            <div className="bg-surface border border-subtle p-6 rounded-2xl flex items-start gap-4 hover:border-green-500/50 transition-colors duration-300 shadow-lg dark:shadow-green-900/5">
+                                <div className="shrink-0 w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400">
+                                    <Search size={24} />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Audit First</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        I don’t automate broken processes — I analyze and fix them first to ensure a solid foundation.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Card 2 */}
+                            <div className="bg-surface border border-subtle p-6 rounded-2xl flex items-start gap-4 hover:border-green-500/50 transition-colors duration-300 shadow-lg dark:shadow-green-900/5">
+                                <div className="shrink-0 w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400">
+                                    <TrendingUp size={24} />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Scale Smart</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        Every system I build is designed to grow with your business, handling increased load effortlessly.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Card 3 */}
+                            <div className="bg-surface border border-subtle p-6 rounded-2xl flex items-start gap-4 hover:border-green-500/50 transition-colors duration-300 shadow-lg dark:shadow-green-900/5">
+                                <div className="shrink-0 w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400">
+                                    <Target size={24} />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Results Focus</h4>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        Success is measured in hours saved, errors reduced, and revenue supported, not just complexity.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Scale Smart</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                      Every system I build is designed to grow with your business.
-                    </p>
-                  </div>
+                </div>
 
-                   {/* Card 3 */}
-                   <div className="bg-base border border-subtle p-8 rounded-2xl hover:border-green-500/50 transition-colors duration-300 group text-center md:text-left h-full">
-                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400 mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform">
-                        <Target size={24} />
-                    </div>
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Results Focus</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                       Success is measured in hours saved, errors reduced, and revenue supported.
-                    </p>
-                  </div>
-               </div>
-            </div>
-
-            {/* Closing Paragraphs */}
-            <div className="text-center max-w-4xl mx-auto border-t border-subtle pt-12">
-               <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed text-base md:text-lg">
-                <p>
-                  I help service-based businesses and agencies replace manual work with smart automation that runs in the background.
-                </p>
-                <p className="font-medium text-gray-900 dark:text-white">
-                  Whether it’s lead capture, CRM setup, appointment booking, follow-ups, or integrations — I build systems that work even when things go wrong.
-                </p>
-              </div>
-            </div>
-
-          </div>
-        </ScrollReveal>
+             </div>
+        </div>
       </div>
     </section>
   );

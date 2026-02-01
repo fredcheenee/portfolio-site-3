@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
+import HeroBackground from './HeroBackground';
 
 const Hero: React.FC = () => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -32,12 +33,12 @@ const Hero: React.FC = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-base pt-20 pb-16 transition-colors duration-300">
       
-      {/* Background Ambience */}
-      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-black/[0.04] dark:bg-white/[0.04] blur-[120px] rounded-full pointer-events-none transition-colors duration-300"></div>
+      {/* Three.js Particle Background */}
+      <HeroBackground />
 
-      {/* Abstract Grid Mesh */}
+      {/* Abstract Grid Mesh - Kept for texture, but lowered opacity to let particles shine */}
       <div 
-          className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none" 
+          className="absolute inset-0 opacity-[0.03] z-0 pointer-events-none" 
           style={{ 
               backgroundImage: `linear-gradient(rgba(120, 120, 120, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(120, 120, 120, 0.3) 1px, transparent 1px)`, 
               backgroundSize: '40px 40px' 
@@ -48,7 +49,7 @@ const Hero: React.FC = () => {
         
         {/* Pill Badge */}
         <ScrollReveal delay={0.1} className="mb-8">
-          <div className="inline-flex items-center gap-2 border border-subtle bg-surface backdrop-blur-sm px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-300 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-300">
+          <div className="inline-flex items-center gap-2 border border-subtle bg-surface/80 backdrop-blur-sm px-4 py-1.5 text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-300 hover:border-black/20 dark:hover:border-white/20 transition-colors duration-300">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full opacity-75 bg-green-400"></span>
               <span className="relative inline-flex rounded-sm h-2 w-2 bg-green-500"></span>
@@ -89,14 +90,14 @@ const Hero: React.FC = () => {
           <a
             href="#work"
             onClick={(e) => scrollToSection(e, 'work')}
-            className="group inline-flex items-center justify-center border border-black/10 dark:border-white/20 text-gray-900 dark:text-white h-14 px-8 text-base font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 min-w-[180px]"
+            className="group inline-flex items-center justify-center border border-black/10 dark:border-white/20 text-gray-900 dark:text-white h-14 px-8 text-base font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 min-w-[180px] bg-white/50 dark:bg-black/50 backdrop-blur-sm"
           >
             <Play className="mr-2 w-4 h-4 fill-current opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
             <span className="transition-transform duration-300 group-hover:translate-x-1">View my Work</span>
           </a>
         </ScrollReveal>
 
-        {/* Tools Marquee (Moved from separate component) */}
+        {/* Tools Marquee */}
         <ScrollReveal delay={0.6} className="mt-24 w-full max-w-full overflow-hidden">
           <p className="text-xs text-center text-gray-500 dark:text-gray-600 uppercase tracking-widest mb-8 font-semibold transition-colors duration-300">
             Tools I Use
@@ -110,7 +111,7 @@ const Hero: React.FC = () => {
              <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
                 {marqueeTools.map((tool, i) => (
                     <div key={i} className="px-3">
-                         <div className="px-6 py-3 rounded-full bg-surface border border-subtle text-sm md:text-base font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-default">
+                         <div className="px-6 py-3 rounded-full bg-surface/80 backdrop-blur-md border border-subtle text-sm md:text-base font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-default">
                             {tool}
                          </div>
                     </div>

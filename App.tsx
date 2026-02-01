@@ -14,26 +14,26 @@ import ScrollReveal from './components/ScrollReveal';
 const App: React.FC = () => {
   const projects = [
     {
-      title: "Enterprise CRM Sync",
-      category: "HubSpot • SQL",
+      title: "Zapier Automations",
+      category: "Zapier • Integrations",
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
       desc: "Bi-directional sync handling 50k+ records daily with zero downtime."
     },
     {
-      title: "AI Lead Qualification",
-      category: "OpenAI • Slack",
+      title: "Make.com Automations",
+      category: "Make • OpenAI",
       image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
       desc: "Custom GPT-4 assistant for real-time lead scoring and outreach."
     },
     {
-      title: "Automated Invoicing",
-      category: "Stripe • Xero",
+      title: "GoHighLevel Automations",
+      category: "GoHighLevel • CRM",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
       desc: "End-to-end finance operations with automated reconciliation."
     },
     {
-      title: "Lead Capture Funnel",
-      category: "Typeform • GHL",
+      title: "Landing Page Creations",
+      category: "GoHighLevel • Design",
       image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
       desc: "High-conversion intake system with instant routing logic."
     },
@@ -44,8 +44,8 @@ const App: React.FC = () => {
       desc: "Multi-stage welcome sequences personalized by user behavior."
     },
     {
-      title: "Inventory Sync",
-      category: "Shopify • Airtable",
+      title: "n8n Automation",
+      category: "n8n • Shopify",
       image: "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=1974&auto=format&fit=crop",
       desc: "Real-time stock management across multiple sales channels."
     }
