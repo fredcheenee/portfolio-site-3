@@ -8,7 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 const About: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  // headerRef is no longer animated but kept for structure if needed, or removed from ref if unused for anim
   const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const approachRef = useRef<HTMLDivElement>(null);
@@ -17,41 +16,42 @@ const About: React.FC = () => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop Animation (Pinned Sequence)
+      // Desktop Animation (Sticky CSS + ScrollTrigger scrubbing)
       mm.add("(min-width: 1024px)", () => {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
-            end: "+=1500", // Adjusted scroll distance
-            pin: true,
+            end: "bottom bottom",
             scrub: 1,
-            anticipatePin: 1,
+            // Removed pin: true in favor of CSS sticky for smoother behavior
           }
         });
 
         // 1. Initial State
-        // Ensure Approach is hidden and positioned slightly down
         gsap.set(approachRef.current, { autoAlpha: 0, y: 50 });
 
         // 2. Animate: Fade out Text -> Fade in Approach
+        // We time this to happen while scrolling through the tall section
         tl.to(textRef.current, {
           autoAlpha: 0,
           y: -20,
-          duration: 1,
+          duration: 0.4, // Faster exit
           ease: "power2.inOut"
         })
         .to(approachRef.current, {
           autoAlpha: 1,
           y: 0,
-          duration: 1,
+          duration: 0.4,
           ease: "power2.out"
-        }, "-=0.5"); // Start coming in while text is fading out
+        }, ">-0.2"); 
+        
+        // Add a dummy tween to pad the end if needed, but 'scrub' distributes timeline over scroll distance
+        tl.to({}, { duration: 0.2 }); 
       });
 
       // Mobile Animation (Simple Stack)
       mm.add("(max-width: 1023px)", () => {
-        // Remove manual opacity sets from CSS if any, let GSAP handle from
         gsap.from(imageRef.current, {
           scrollTrigger: { trigger: imageRef.current, start: "top 80%" },
           y: 30, opacity: 0, duration: 0.8
@@ -72,8 +72,8 @@ const About: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="bg-base relative border-b border-subtle overflow-hidden transition-colors duration-300">
-        {/* Background Texture */}
+    <section ref={sectionRef} id="about" className="bg-base relative border-b border-subtle transition-colors duration-300">
+        {/* Background Texture - Fixed to section */}
         <div 
             className="absolute inset-0 opacity-[0.05] z-0 pointer-events-none" 
             style={{ 
@@ -82,11 +82,28 @@ const About: React.FC = () => {
             }}
         ></div>
 
-      {/* Main Container - Full Height for Pinning */}
-      <div ref={containerRef} className="max-w-7xl mx-auto relative z-10 min-h-screen flex flex-col justify-center py-20 px-6">
+      {/* 
+        Container using CSS Sticky. 
+        - h-screen: takes full height
+        - sticky top-0: sticks to top
+        - overflow-hidden: contains content
+      */}
+      <div className="hidden lg:block h-[200vh] w-full absolute top-0 left-0 pointer-events-none"></div> {/* Spacer for scroll distance */}
+      
+      {/* 
+         We actually need the section itself to be tall. 
+         Let's make the section min-h-[200vh] on desktop.
+      */}
+      <style>{`
+        @media (min-width: 1024px) {
+          #about { min-height: 250vh; }
+        }
+      `}</style>
+
+      <div ref={containerRef} className="max-w-7xl mx-auto relative z-10 flex flex-col justify-center py-20 px-6 lg:h-screen lg:sticky lg:top-0 lg:overflow-hidden">
         
-        {/* Header Section - Static */}
-        <div className="text-center mb-12 lg:mb-16 relative z-30">
+        {/* Header Section */}
+        <div className="text-center mb-12 lg:mb-16 relative z-30 shrink-0">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1] mb-6">
               ABOUT <span className="text-green-600 dark:text-green-500">ME</span>
             </h2>
@@ -96,9 +113,9 @@ const About: React.FC = () => {
         </div>
 
         {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start relative">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start relative grow">
             
-            {/* Left Column: Image (Sticky on Desktop within container logic or just static) */}
+            {/* Left Column: Image */}
             <div ref={imageRef} className="relative z-20 w-full max-w-md mx-auto lg:max-w-none h-full flex flex-col justify-center">
                 <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-subtle bg-surface relative shadow-2xl shadow-green-900/10 group">
                     <img 
@@ -117,7 +134,7 @@ const About: React.FC = () => {
             </div>
 
              {/* Right Column: Text & Approach Swap */}
-             <div className="relative z-20 flex flex-col justify-center min-h-[500px]">
+             <div className="relative z-20 flex flex-col justify-center min-h-[500px] lg:h-full">
                 
                 {/* 1. Journey Text */}
                 <div ref={textRef} className="bg-surface border border-subtle p-8 md:p-10 rounded-3xl shadow-lg dark:shadow-green-900/5 relative z-10">
@@ -158,7 +175,7 @@ const About: React.FC = () => {
                                 <div>
                                     <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Audit First</h4>
                                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                                        I don’t automate broken processes — I analyze and fix them first to ensure a solid foundation.
+                                        I don't automate broken processes — I analyze and fix them first to ensure a solid foundation.
                                     </p>
                                 </div>
                             </div>
