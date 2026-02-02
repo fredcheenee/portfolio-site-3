@@ -52,8 +52,13 @@ const HeroBackground: React.FC = () => {
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+    // Determine initial color based on theme
+    const GREEN = 0x0ae448;
+    const BLACK = 0x000000;
+    const isDarkInitial = document.documentElement.classList.contains('dark');
+
     const material = new THREE.PointsMaterial({ 
-      color: 0x0ae448, // Keeping the requested color
+      color: isDarkInitial ? GREEN : BLACK,
       size: 2,
       transparent: true,
       opacity: 0.8
@@ -127,6 +132,21 @@ const HeroBackground: React.FC = () => {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('resize', onResize);
 
+    // --- Theme Observer ---
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          material.color.setHex(isDark ? GREEN : BLACK);
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
     // --- Render Loop ---
     let reqId: number;
     const animate = () => {
@@ -137,6 +157,7 @@ const HeroBackground: React.FC = () => {
 
     // --- Cleanup ---
     return () => {
+      observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(reqId);

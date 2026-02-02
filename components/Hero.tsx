@@ -90,7 +90,7 @@ const Hero: React.FC = () => {
           <a
             href="#work"
             onClick={(e) => scrollToSection(e, 'work')}
-            className="group inline-flex items-center justify-center border border-black/10 dark:border-white/20 text-gray-900 dark:text-white h-14 px-8 text-base font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 min-w-[180px] bg-white/50 dark:bg-black/50 backdrop-blur-sm"
+            className="group inline-flex items-center justify-center border border-black/10 dark:border-white/20 text-black dark:text-white h-14 px-8 text-base font-semibold hover:bg-black/5 dark:hover:bg-white/5 transition-all duration-200 min-w-[180px] bg-white/50 dark:bg-black/50 backdrop-blur-sm"
           >
             <Play className="mr-2 w-4 h-4 fill-current opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
             <span className="transition-transform duration-300 group-hover:translate-x-1">View my Work</span>
@@ -111,7 +111,7 @@ const Hero: React.FC = () => {
              <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
                 {marqueeTools.map((tool, i) => (
                     <div key={i} className="px-3">
-                         <div className="px-6 py-3 rounded-full bg-surface/80 backdrop-blur-md border border-subtle text-sm md:text-base font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-default">
+                         <div className="px-6 py-3 rounded-full border border-subtle bg-surface/50 backdrop-blur-sm text-sm md:text-base font-medium text-black dark:text-gray-400 whitespace-nowrap hover:border-green-500/50 hover:text-green-600 dark:hover:text-green-400 transition-colors cursor-default">
                             {tool}
                          </div>
                     </div>

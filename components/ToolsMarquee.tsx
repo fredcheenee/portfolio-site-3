@@ -35,7 +35,7 @@ const ToolsMarquee: React.FC = () => {
                 rounded-2xl 
                 bg-surface 
                 border border-subtle 
-                text-gray-600 dark:text-gray-300 
+                text-black dark:text-gray-300 
                 font-semibold text-lg 
                 whitespace-nowrap 
                 transition-all duration-300 
