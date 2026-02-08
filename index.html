@@ -56,9 +56,13 @@
       html {
         scroll-behavior: smooth;
       }
+      
       body {
         background-color: var(--bg-base);
         color: #111827; /* Dark text for light mode */
+        overflow-x: hidden; /* Prevent horizontal scrollbars */
+        width: 100%;
+        min-height: 100vh;
       }
       .dark body {
         color: #ffffff;

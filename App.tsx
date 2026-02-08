@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import TechStack from './components/TechStack';
@@ -11,6 +11,8 @@ import CTA from './components/CTA';
 import Footer from './components/Footer';
 import ScrollReveal from './components/ScrollReveal';
 import Preloader from './components/Preloader';
+import CustomCursor from './components/CustomCursor';
+import { ArrowUpRight } from 'lucide-react';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,7 +70,8 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base text-gray-900 dark:text-white selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black font-sans transition-colors duration-300">
+    <div className="min-h-screen w-full bg-base text-gray-900 dark:text-white selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black font-sans transition-colors duration-300">
+      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
@@ -95,9 +98,10 @@ const App: React.FC = () => {
                   href="https://www.notion.so/Explore-My-Skills-1c0a08f522ca80f1bc92c7edc5d6cf4b" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="hidden md:inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white border-b border-black/30 dark:border-white/30 pb-1 hover:border-black dark:hover:border-white transition-colors"
+                  className="hidden md:inline-flex group items-center justify-center gap-2 px-8 py-4 text-base font-bold tracking-wide text-white bg-black dark:text-black dark:bg-white rounded-lg transition-all duration-300 hover:bg-gray-800 dark:hover:bg-gray-200 hover:-translate-y-1 shadow-lg hover:shadow-xl"
                 >
-                  View full portfolio
+                  View Full Portfolio
+                  <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </a>
               </ScrollReveal>
             </div>
@@ -129,9 +133,10 @@ const App: React.FC = () => {
                   href="https://www.notion.so/Explore-My-Skills-1c0a08f522ca80f1bc92c7edc5d6cf4b" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white border-b border-black/30 dark:border-white/30 pb-1 hover:border-black dark:hover:border-white transition-colors"
+                  className="inline-flex group items-center justify-center gap-2 px-8 py-4 text-base font-bold tracking-wide text-white bg-black dark:text-black dark:bg-white rounded-lg transition-all duration-300 hover:bg-gray-800 dark:hover:bg-gray-200 shadow-lg w-full sm:w-auto"
                 >
-                    View full portfolio
+                    View Full Portfolio
+                    <ArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </a>
             </div>
           </div>
