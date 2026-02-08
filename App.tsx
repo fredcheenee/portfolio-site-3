@@ -42,7 +42,7 @@ const App: React.FC = () => {
     {
       title: "GoHighLevel Automations",
       category: "GoHighLevel • CRM",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
+      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/wleocme%20email%20and%20sms%20ai%20flow.jpg",
       desc: "End-to-end finance operations with automated reconciliation."
     },
     {
