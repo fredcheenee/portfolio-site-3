@@ -30,7 +30,7 @@ const App: React.FC = () => {
     {
       title: "Zapier Automations",
       category: "Zapier • Integrations",
-      image: "https://drive.google.com/file/d/1Yk61jrv4xuGnItqQ11JWqjJd5k708Ufp/view?usp=drive_link",
+      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/image%20(15).png",
       desc: "Bi-directional sync handling 50k+ records daily with zero downtime."
     },
     {
