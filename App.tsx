@@ -48,7 +48,7 @@ const App: React.FC = () => {
     {
       title: "Landing Page Creations",
       category: "GoHighLevel • Design",
-      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/2025-05-23%2022-05-04%20(3).gif",
       desc: "High-conversion intake system with instant routing logic."
     },
     {
