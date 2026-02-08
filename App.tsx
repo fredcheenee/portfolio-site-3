@@ -36,7 +36,7 @@ const App: React.FC = () => {
     {
       title: "Make.com Automations",
       category: "Make • OpenAI",
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/image%20(16).png",
       desc: "Custom GPT-4 assistant for real-time lead scoring and outreach."
     },
     {
