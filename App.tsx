@@ -31,25 +31,25 @@ const App: React.FC = () => {
     {
       title: "Zapier Automations",
       category: "Zapier • Integrations",
-      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/image%20(15).png",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
       desc: "Bi-directional sync handling 50k+ records daily with zero downtime."
     },
     {
       title: "Make.com Automations",
       category: "Make • OpenAI",
-      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/image%20(16).png",
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
       desc: "Custom GPT-4 assistant for real-time lead scoring and outreach."
     },
     {
       title: "GoHighLevel Automations",
       category: "GoHighLevel • CRM",
-      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/wleocme%20email%20and%20sms%20ai%20flow.jpg",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
       desc: "End-to-end finance operations with automated reconciliation."
     },
     {
       title: "Landing Page Creations",
       category: "GoHighLevel • Design",
-      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/2025-05-23%2022-05-04%20(3).gif",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
       desc: "High-conversion intake system with instant routing logic."
     },
     {
@@ -61,7 +61,7 @@ const App: React.FC = () => {
     {
       title: "n8n Automation",
       category: "n8n • Shopify",
-      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/Screenshot%202026-02-09%20055529.png",
+      image: "https://images.unsplash.com/photo-1586880244406-556ebe35f282?q=80&w=1974&auto=format&fit=crop",
       desc: "Real-time stock management across multiple sales channels."
     }
   ];
