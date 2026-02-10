@@ -5,38 +5,38 @@ import ScrollReveal from './ScrollReveal';
 const Reviews: React.FC = () => {
   const reviews = [
     {
-      name: "Sarah Jenkins",
-      role: "Operations Director",
-      company: "TechFlow Agency",
-      content: "Fred automated our entire onboarding flow. What used to take 2 hours per client now happens instantly. The ROI was immediate.",
+      name: "Sunny",
+      role: "Marketing Lead",
+      company: "MSP CAMP",
+      content: "Fred handled a series of landing page builds for our campaigns. We needed custom layouts for each one, and he turned them around quicker than expected. It's rare to find someone who doesn't need constant revisions on the design details.",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
       name: "Marcus Chen",
       role: "Founder",
-      company: "ScaleUp Systems",
-      content: "The n8n workflows he built are bulletproof. We haven't had a single sync error in 6 months despite handling thousands of records daily.",
+      company: "Basic Solutions Inc.",
+      content: "The n8n workflows Fred built are solid. We process a lot of data, and stability is more important to us than complex features. He kept the logic clean and error-handling robust, so we haven't had any sync issues since launch.",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
-      name: "Elena Rodriguez",
-      role: "Head of Marketing",
-      company: "Growth Hacking Co",
-      content: "Highly recommended for complex GoHighLevel setups. He knows the API limitations inside out and found workarounds others couldn't.",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150&h=150"
+      name: "Taher",
+      role: "Operations",
+      company: "MSP CAMP",
+      content: "Fred set up our entire backend in GoHighLevel—forms, triggers, and the underlying automation. He actually suggested a different data structure than we planned, which ended up being much cleaner for reporting. Great technical partner.",
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
       name: "David Park",
       role: "E-commerce Director",
       company: "ModernRetail",
-      content: "We were drowning in manual order processing. Fred connected Shopify directly to our ERP, saving us 20+ hours a week in data entry.",
+      content: "Our Shopify order processing was largely manual before. Fred bridged the gap to our ERP, so now data flows without anyone touching a spreadsheet. It’s just one less thing for the operations team to worry about every day.",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
       name: "Olivia Thompson",
       role: "Sales Manager",
       company: "PropertyFlow",
-      content: "Our lead response time went from 2 hours to 2 minutes. The instant SMS and email sequences he built in HighLevel completely transformed our conversion rates.",
+      content: "We brought Fred in to fix our lead follow-up sequences in GHL. The response times are much better now that the SMS and emails trigger reliably. It’s nice to have a system that just works in the background.",
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150"
     },
     {
