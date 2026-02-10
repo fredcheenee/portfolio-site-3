@@ -61,7 +61,7 @@ const App: React.FC = () => {
     {
       title: "n8n Automation",
       category: "n8n • Shopify",
-      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/ladningpage.gif",
+      image: "https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/n8n.png",
       desc: "Real-time stock management across multiple sales channels."
     }
   ];
