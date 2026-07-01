@@ -55,6 +55,13 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const links = [
+    { id: 'services', label: 'Services' },
+    { id: 'work', label: 'Work' },
+    { id: 'process', label: 'Process' },
+    { id: 'about', label: 'About' },
+  ];
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
@@ -64,71 +71,58 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-5 h-5 bg-gray-900 dark:bg-white transition-colors"></div>
-          <span className="font-bold text-lg tracking-tight text-gray-900 dark:text-white transition-colors">FRED D.</span>
+        {/* Logo — node mark */}
+        <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="relative w-4 h-4">
+            <div className="absolute inset-0 border border-accent rotate-45 transition-transform group-hover:rotate-[135deg] duration-500"></div>
+            <div className="absolute inset-1.5 bg-accent-node"></div>
+          </div>
+          <span className="font-display font-bold text-lg tracking-tight text-ink-primary">FRED<span className="text-accent">.</span>D</span>
         </div>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <a 
-            href="#services" 
-            onClick={(e) => scrollToSection(e, 'services')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Services
-          </a>
-          <a 
-            href="#process" 
-            onClick={(e) => scrollToSection(e, 'process')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Methodology
-          </a>
-          <a 
-            href="#integrations" 
-            onClick={(e) => scrollToSection(e, 'integrations')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Ecosystem
-          </a>
-          <a 
-            href="#contact" 
-            onClick={(e) => scrollToSection(e, 'contact')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Contact
-          </a>
-          
-          <button 
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              onClick={(e) => scrollToSection(e, l.id)}
+              className="font-mono text-xs uppercase tracking-[0.15em] text-ink-secondary hover:text-accent transition-colors"
+            >
+              {l.label}
+            </a>
+          ))}
+
+          <button
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-600 dark:text-gray-300"
-            aria-label="Toggle Theme"
+            className="p-2 border border-subtle hover:border-accent text-ink-secondary hover:text-accent transition-colors"
+            aria-label="Toggle theme"
           >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
 
-          <a 
-            href="#work" 
-            onClick={(e) => scrollToSection(e, 'work')}
-            className="px-5 py-2.5 text-sm font-bold text-white bg-black dark:text-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors tracking-wide"
+          <a
+            href="#contact"
+            onClick={(e) => scrollToSection(e, 'contact')}
+            className="px-5 py-2.5 font-mono text-xs uppercase tracking-[0.15em] text-white bg-accent hover:bg-accent-bright transition-colors"
           >
-            View My Work
+            Book audit
           </a>
         </div>
 
         {/* Mobile Toggle */}
-        <div className="flex items-center gap-4 md:hidden">
-            <button 
+        <div className="flex items-center gap-3 md:hidden">
+            <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-600 dark:text-gray-300"
+                className="p-2 border border-subtle text-ink-secondary"
+                aria-label="Toggle theme"
             >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button
-            className="text-gray-900 dark:text-white"
+            className="text-ink-primary"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
             >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -138,40 +132,22 @@ const Navbar: React.FC = () => {
       {/* Mobile Nav */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-base border-b border-subtle p-6 md:hidden flex flex-col gap-4 animate-fade-in-up shadow-2xl">
-          <a 
-            href="#services" 
-            onClick={(e) => scrollToSection(e, 'services')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Services
-          </a>
-          <a 
-            href="#process" 
-            onClick={(e) => scrollToSection(e, 'process')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Methodology
-          </a>
-          <a 
-            href="#integrations" 
-            onClick={(e) => scrollToSection(e, 'integrations')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Ecosystem
-          </a>
-          <a 
-            href="#contact" 
+          {links.map((l) => (
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              onClick={(e) => scrollToSection(e, l.id)}
+              className="font-mono text-sm uppercase tracking-[0.15em] text-ink-secondary hover:text-accent"
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href="#contact"
             onClick={(e) => scrollToSection(e, 'contact')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
+            className="text-white bg-accent text-center py-3 font-mono text-sm uppercase tracking-[0.15em] transition-colors"
           >
-            Contact
-          </a>
-          <a 
-            href="#work" 
-            onClick={(e) => scrollToSection(e, 'work')}
-            className="text-white bg-black dark:text-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-center py-3 font-bold uppercase tracking-wide transition-colors"
-          >
-            View My Work
+            Book audit
           </a>
         </div>
       )}

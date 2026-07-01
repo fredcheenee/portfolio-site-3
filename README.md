@@ -1,20 +1,35 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Fred D. — Portfolio
 
-# Run and deploy your AI Studio app
+Personal portfolio for Fred, an AI &amp; automation systems builder (n8n, Make, Zapier, GoHighLevel + custom code).
 
-This contains everything you need to run your app locally.
+A single-page React site with a "blueprint / systems" visual identity — a live node-network background, blueprint grid, and an orchestrated staggered load.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1F3g5b2lPMyju19DK7kpExautrmGT5hK5
+## Stack
 
-## Run Locally
+- React 19 + TypeScript
+- Vite 6
+- Tailwind (utility classes) with a CSS-variable design system (light / dark)
+- GSAP (custom cursor) + a lightweight canvas node-network background
+- Fonts: Sora (display), Hanken Grotesk (body), JetBrains Mono (labels)
 
-**Prerequisites:**  Node.js
+## Run locally
 
+**Prerequisites:** Node.js
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build     # outputs to dist/
+npm run preview   # preview the production build
+```
+
+## Structure
+
+- `App.tsx` — page composition and section order
+- `components/` — one file per section (Hero, Services, Work, Process, About, Integrations, Reviews, CTA, Footer) plus shared pieces (Navbar, HeroBackground, ScrollReveal, CustomCursor, Preloader)
+- `index.html` — design tokens, Tailwind config, fonts
