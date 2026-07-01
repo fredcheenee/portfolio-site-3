@@ -1,181 +1,154 @@
 import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import gsap from 'gsap';
 
+/**
+ * Blueprint node-network: a lightweight 2D-canvas constellation of automation
+ * "nodes" connected by signal lines. Reads as a live systems diagram and ties
+ * the visual identity to what Fred actually builds — connected workflows.
+ */
 const HeroBackground: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    // --- Scene Setup ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    
-    // Explicitly set position to absolute to ensure it sits correctly in the container
-    renderer.domElement.style.position = 'absolute';
-    renderer.domElement.style.top = '0';
-    renderer.domElement.style.left = '0';
-    renderer.domElement.style.width = '100%';
-    renderer.domElement.style.height = '100%';
-    
-    containerRef.current.appendChild(renderer.domElement);
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // --- Geometry Construction ---
-    // Using BufferGeometry as Geometry is deprecated in newer Three.js versions
-    const geometry = new THREE.BufferGeometry();
-    const count = 1600;
-    const positions = new Float32Array(count * 3);
-    const distance = Math.min(200, window.innerWidth / 4);
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    for (let i = 0; i < count; i++) {
-      // Logic from user snippet:
-      // var theta = Math.acos(THREE.Math.randFloatSpread(2)); 
-      // var phi = THREE.Math.randFloatSpread(360); 
-      // Note: THREE.Math is deprecated, using THREE.MathUtils
-      
-      const theta = Math.acos(THREE.MathUtils.randFloatSpread(2));
-      const phi = THREE.MathUtils.randFloatSpread(360);
+    type Node = { x: number; y: number; vx: number; vy: number; r: number; pulse: number };
+    let nodes: Node[] = [];
 
-      const x = distance * Math.sin(theta) * Math.cos(phi);
-      const y = distance * Math.sin(theta) * Math.sin(phi);
-      const z = distance * Math.cos(theta);
+    const palette = () => {
+      const dark = document.documentElement.classList.contains('dark');
+      return dark
+        ? { line: '99,140,255', node: '56,189,248', accent: '108,160,255' }
+        : { line: '30,64,150', node: '14,165,201', accent: '40,98,230' };
+    };
+    let colors = palette();
 
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
+    const build = () => {
+      const rect = canvas.parentElement?.getBoundingClientRect();
+      width = rect?.width ?? window.innerWidth;
+      height = rect?.height ?? window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const density = Math.min(70, Math.floor((width * height) / 16000));
+      nodes = Array.from({ length: density }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 1.6 + 1,
+        pulse: Math.random() * Math.PI * 2,
+      }));
+    };
+
+    const mouse = { x: -9999, y: -9999 };
+    const onMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    };
+
+    const LINK = 150;
+    let raf = 0;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+        n.pulse += 0.02;
+      }
+
+      // Signal lines between nearby nodes
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < LINK) {
+            const alpha = (1 - dist / LINK) * 0.5;
+            ctx.strokeStyle = `rgba(${colors.line},${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Lines toward the cursor — the network "reaches" for you
+      for (const n of nodes) {
+        const dx = n.x - mouse.x;
+        const dy = n.y - mouse.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 200) {
+          ctx.strokeStyle = `rgba(${colors.accent},${(1 - dist / 200) * 0.55})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+
+      // Nodes
+      for (const n of nodes) {
+        const glow = (Math.sin(n.pulse) + 1) / 2;
+        ctx.fillStyle = `rgba(${colors.node},${0.5 + glow * 0.5})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!reduceMotion) raf = requestAnimationFrame(draw);
+    };
+
+    build();
+    colors = palette();
+    if (reduceMotion) {
+      draw();
+    } else {
+      raf = requestAnimationFrame(draw);
+      window.addEventListener('mousemove', onMove);
     }
 
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    // Determine initial color based on theme
-    const GREEN = 0x0ae448;
-    const BLACK = 0x000000;
-    const isDarkInitial = document.documentElement.classList.contains('dark');
-
-    const material = new THREE.PointsMaterial({ 
-      color: isDarkInitial ? GREEN : BLACK,
-      size: 2,
-      transparent: true,
-      opacity: 0.8
-    });
-
-    const particles = new THREE.Points(geometry, material);
-    
-    // Grouping structure from snippet
-    const renderingParent = new THREE.Group();
-    renderingParent.add(particles);
-
-    const resizeContainer = new THREE.Group();
-    resizeContainer.add(renderingParent);
-    scene.add(resizeContainer);
-
-    // Shift to the right to clear text area
-    resizeContainer.position.x = 400;
-
-    camera.position.z = 400;
-
-    // --- GSAP Animations ---
-    const animProps = { scale: 1, xRot: 0, yRot: 0 };
-
-    // Scaling animation
-    const scaleTween = gsap.to(animProps, {
-      duration: 10,
-      scale: 1.3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine",
-      onUpdate: function() {
-        renderingParent.scale.set(animProps.scale, animProps.scale, animProps.scale);
-      }
-    });
-
-    // Rotation animation
-    const rotateTween = gsap.to(animProps, {
-      duration: 120,
-      xRot: Math.PI * 2,
-      yRot: Math.PI * 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "none",
-      onUpdate: function() {
-        renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0);
-      }
-    });
-
-    // --- Interaction ---
-    let mouseTween: gsap.core.Tween;
-    
-    const onMouseMove = (event: MouseEvent) => {
-      if (mouseTween) mouseTween.kill();
-      
-      const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-      const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-      
-      mouseTween = gsap.to(particles.rotation, {
-        duration: 0.1, 
-        x: mouseY * -1, 
-        y: mouseX
-      });
-    };
-
-    const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
+    const onResize = () => build();
     window.addEventListener('resize', onResize);
 
-    // --- Theme Observer ---
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-          const isDark = document.documentElement.classList.contains('dark');
-          material.color.setHex(isDark ? GREEN : BLACK);
-        }
-      });
-    });
+    const observer = new MutationObserver(() => { colors = palette(); });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-
-    // --- Render Loop ---
-    let reqId: number;
-    const animate = () => {
-      reqId = requestAnimationFrame(animate);
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    // --- Cleanup ---
     return () => {
-      observer.disconnect();
-      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', onMove);
       window.removeEventListener('resize', onResize);
-      cancelAnimationFrame(reqId);
-      
-      scaleTween.kill();
-      rotateTween.kill();
-      if (mouseTween) mouseTween.kill();
-      
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
-      }
+      observer.disconnect();
     };
   }, []);
 
-  return <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden" />;
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      <canvas ref={canvasRef} className="absolute inset-0" />
+    </div>
+  );
 };
 
 export default HeroBackground;

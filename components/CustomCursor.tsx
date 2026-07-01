@@ -56,8 +56,8 @@ const CustomCursor: React.FC = () => {
           ref={(el) => { if (el) cursorRefs.current[i] = el; }}
           className="fixed top-0 left-0 w-[25px] h-[25px] rounded-full pointer-events-none z-[9999]"
         >
-          {/* Inner circle with theme-aware color - slightly transparent white/black */}
-          <div className="w-full h-full rounded-full bg-black/30 dark:bg-white/30" />
+          {/* Inner circle — accent-tinted node trail */}
+          <div className="w-full h-full rounded-full" style={{ backgroundColor: 'var(--accent)', opacity: 0.25 }} />
         </div>
       ))}
     </>
