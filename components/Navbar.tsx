@@ -1,177 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import { scrollToSection, BOOKING_URL } from './scroll';
+
+const links = [
+  { id: 'services', label: 'Services' },
+  { id: 'work', label: 'Work' },
+  { id: 'process', label: 'Process' },
+  { id: 'about', label: 'About' },
+];
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Scroll listener
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
-
-    // Initial Theme Check
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-
+    setIsDark(document.documentElement.classList.contains('dark'));
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    if (newIsDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.theme = 'dark';
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.theme = 'light';
-    }
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.theme = next ? 'dark' : 'light';
   };
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80; // Height of navbar + padding
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      setMobileMenuOpen(false);
-    }
+  const go = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    scrollToSection(e, id);
+    setMobileMenuOpen(false);
   };
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-        isScrolled
-          ? 'bg-base/80 backdrop-blur-md border-subtle py-4'
-          : 'bg-transparent border-transparent py-6'
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ${
+        isScrolled || mobileMenuOpen ? 'bg-base/90 backdrop-blur-md border-line' : 'bg-transparent border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="w-5 h-5 bg-gray-900 dark:bg-white transition-colors"></div>
-          <span className="font-bold text-lg tracking-tight text-gray-900 dark:text-white transition-colors">FRED D.</span>
-        </div>
+      <div className="max-w-page mx-auto px-6 h-[72px] flex items-center justify-between">
+        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="font-semibold text-lg tracking-tight text-ink">
+          Fred D.
+        </a>
 
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <a 
-            href="#services" 
-            onClick={(e) => scrollToSection(e, 'services')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Services
-          </a>
-          <a 
-            href="#process" 
-            onClick={(e) => scrollToSection(e, 'process')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Methodology
-          </a>
-          <a 
-            href="#integrations" 
-            onClick={(e) => scrollToSection(e, 'integrations')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Ecosystem
-          </a>
-          <a 
-            href="#contact" 
-            onClick={(e) => scrollToSection(e, 'contact')}
-            className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
-          >
-            Contact
-          </a>
-          
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-600 dark:text-gray-300"
-            aria-label="Toggle Theme"
-          >
+          {links.map((l) => (
+            <a key={l.id} href={`#${l.id}`} onClick={(e) => go(e, l.id)} className="text-sm font-medium text-muted hover:text-ink transition-colors">
+              {l.label}
+            </a>
+          ))}
+          <button onClick={toggleTheme} className="p-2 rounded-full text-muted hover:text-ink hover:bg-surface transition-colors" aria-label="Toggle theme">
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
-
-          <a 
-            href="#work" 
-            onClick={(e) => scrollToSection(e, 'work')}
-            className="px-5 py-2.5 text-sm font-bold text-white bg-black dark:text-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors tracking-wide"
-          >
-            View My Work
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="px-4 py-2.5 text-sm font-semibold rounded-md bg-ink text-paper hover:bg-accent hover:text-accent-ink transition-colors">
+            Book a call
           </a>
         </div>
 
-        {/* Mobile Toggle */}
-        <div className="flex items-center gap-4 md:hidden">
-            <button 
-                onClick={toggleTheme}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-600 dark:text-gray-300"
-            >
-                {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button
-            className="text-gray-900 dark:text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
+        <div className="flex items-center gap-2 md:hidden">
+          <button onClick={toggleTheme} className="p-2 rounded-full text-muted" aria-label="Toggle theme">
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button className="p-2 text-ink" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Menu">
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+          </button>
         </div>
       </div>
 
-      {/* Mobile Nav */}
       {mobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-base border-b border-subtle p-6 md:hidden flex flex-col gap-4 animate-fade-in-up shadow-2xl">
-          <a 
-            href="#services" 
-            onClick={(e) => scrollToSection(e, 'services')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Services
-          </a>
-          <a 
-            href="#process" 
-            onClick={(e) => scrollToSection(e, 'process')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Methodology
-          </a>
-          <a 
-            href="#integrations" 
-            onClick={(e) => scrollToSection(e, 'integrations')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Ecosystem
-          </a>
-          <a 
-            href="#contact" 
-            onClick={(e) => scrollToSection(e, 'contact')}
-            className="text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white text-lg font-medium"
-          >
-            Contact
-          </a>
-          <a 
-            href="#work" 
-            onClick={(e) => scrollToSection(e, 'work')}
-            className="text-white bg-black dark:text-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-center py-3 font-bold uppercase tracking-wide transition-colors"
-          >
-            View My Work
+        <div className="absolute top-full left-0 right-0 bg-base border-b border-line px-6 py-6 md:hidden flex flex-col gap-5">
+          {links.map((l) => (
+            <a key={l.id} href={`#${l.id}`} onClick={(e) => go(e, l.id)} className="text-lg font-medium text-ink">
+              {l.label}
+            </a>
+          ))}
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-center py-3 rounded-md bg-ink text-paper font-semibold">
+            Book a call
           </a>
         </div>
       )}

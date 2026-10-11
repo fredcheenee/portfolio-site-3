@@ -1,95 +1,58 @@
 import React from 'react';
-import { Users, Filter, Cable, Monitor, ArrowUpRight } from 'lucide-react';
-import ScrollReveal from './ScrollReveal';
+import { Users, CalendarCheck, Bot, LayoutTemplate } from 'lucide-react';
+
+const services = [
+  {
+    icon: Users,
+    title: 'CRM and lead automation',
+    description: 'Every lead lands in the right place, gets tagged, routed and followed up by text and email within seconds. No more leads sitting in an inbox.',
+    tools: 'GoHighLevel, HubSpot, n8n, Make',
+  },
+  {
+    icon: CalendarCheck,
+    title: 'Booking and calendar systems',
+    description: 'Online booking that respects real availability, takes deposits, syncs both ways with Google Calendar and sends reminders that cut no-shows.',
+    tools: 'Google Calendar, Stripe, Supabase, custom engines',
+  },
+  {
+    icon: Bot,
+    title: 'AI agents and chatbots',
+    description: 'Assistants that answer patient and customer questions, qualify leads and hand off to a human the moment it matters, with guardrails you control.',
+    tools: 'Claude, OpenAI, n8n, Slack',
+  },
+  {
+    icon: LayoutTemplate,
+    title: 'Landing pages and funnels',
+    description: 'Fast, mobile-first pages wired straight into your booking and CRM. Built in GoHighLevel or custom code, depending on what you need.',
+    tools: 'GoHighLevel, Next.js, Tailwind',
+  },
+];
 
 const Services: React.FC = () => {
-  const services = [
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "CRM Automation",
-      description: "Bi-directional syncs that keep your data pristine. Automatically route leads, update deal stages, and trigger follow-up sequences without lifting a finger.",
-      tags: ["HubSpot", "Salesforce", "Pipedrive"]
-    },
-    {
-      icon: <Filter className="w-8 h-8" />,
-      title: "Lead Capture Funnels",
-      description: "High-converting qualification logic. Capture intent, score prospects in real-time, and instantly route high-value opportunities to your sales team.",
-      tags: ["Typeform", "GHL", "Enrichment"]
-    },
-    {
-      icon: <Cable className="w-8 h-8" />,
-      title: "Workflow Integrations",
-      description: "Bridging the gap between isolated tools. If it has an API, I can build a robust, error-handled connection to the rest of your ecosystem.",
-      tags: ["Stripe", "Slack", "Notion", "Airtable"]
-    },
-    {
-      icon: <Monitor className="w-8 h-8" />,
-      title: "Landing Page Builds",
-      description: "Performance-obsessed funnels built in HighLevel (GHL) or custom code. Zero bloat, instant load times, and direct integration with your backend.",
-      tags: ["HighLevel", "Next.js", "Tailwind"]
-    }
-  ];
-
   return (
-    <section id="services" className="bg-base py-32 px-6 border-b border-subtle relative overflow-hidden transition-colors duration-300">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-          <ScrollReveal className="max-w-2xl">
-            <span className="inline-block py-1 px-2 border border-subtle bg-surface text-xs font-mono uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-6">
-              Scope of Work
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight leading-[1.1]">
-              Solutions for the <br />
-              <span className="text-gray-500">modern enterprise.</span>
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal delay={0.2} className="max-w-sm">
-            <p className="text-gray-600 dark:text-gray-400 font-light text-lg leading-relaxed text-left">
-              Bespoke automation infrastructure designed to scale with your revenue, not your headcount.
-            </p>
-          </ScrollReveal>
+    <section id="services" className="px-6 py-24 md:py-32">
+      <div className="max-w-page mx-auto">
+        <div className="max-w-[40ch] mb-14 md:mb-20">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-ink mb-5">What I build</h2>
+          <p className="text-lg text-muted leading-relaxed">
+            Four things, done properly. Each one is built to keep working when a tool changes, a lead types their phone number wrong, or someone on your team clicks the wrong button.
+          </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <ScrollReveal 
-              key={index} 
-              className="group p-10 border border-subtle bg-surface hover:bg-gray-100 dark:hover:bg-[#1a1a1a] hover:border-black/10 dark:hover:border-white/10 transition-all duration-300 relative overflow-hidden h-full flex flex-col"
-              delay={index * 0.1}
-            >
-              {/* Hover Glow */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-black/[0.02] dark:bg-white/[0.02] blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-black/[0.05] dark:group-hover:bg-white/[0.05] transition-colors duration-500 pointer-events-none"></div>
-
-              <div className="relative z-10 flex flex-col h-full justify-between">
-                <div>
-                  <div className="flex justify-between items-start mb-8">
-                    <div className="p-3 bg-base border border-subtle text-gray-900 dark:text-white group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black transition-colors duration-300">
-                      {service.icon}
-                    </div>
-                    <ArrowUpRight className="text-gray-400 dark:text-gray-600 group-hover:text-black dark:group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:translate-x-1 transition-transform duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 font-light leading-relaxed mb-8 group-hover:text-gray-900 dark:group-hover:text-gray-300 transition-colors">
-                    {service.description}
-                  </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 border-t border-line">
+          {services.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={s.title} className={`py-10 md:py-12 border-b border-line ${i % 2 === 0 ? 'md:pr-12' : 'md:pl-12 md:border-l'}`}>
+                <div className="w-11 h-11 rounded-lg bg-accent-soft text-accent flex items-center justify-center mb-6">
+                  <Icon className="w-5 h-5" />
                 </div>
-
-                <div className="flex flex-wrap gap-2 pt-6 border-t border-subtle">
-                  {service.tags.map((tag, i) => (
-                    <span key={i} className="text-xs font-mono text-gray-500 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-400 uppercase tracking-wider">
-                      [{tag}]
-                    </span>
-                  ))}
-                </div>
+                <h3 className="text-xl md:text-2xl font-semibold text-ink mb-3">{s.title}</h3>
+                <p className="text-muted leading-relaxed mb-5 max-w-[48ch]">{s.description}</p>
+                <p className="text-sm text-muted">{s.tools}</p>
               </div>
-            </ScrollReveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

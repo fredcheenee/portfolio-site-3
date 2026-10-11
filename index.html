@@ -1,106 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Automation Specialist Portfolio</title>
+    <title>Fred D. | Automation systems for service businesses and agencies</title>
+    <meta name="description" content="Fred builds the lead capture, CRM, booking and AI automation that runs service businesses and agencies in the background. n8n, Make, GoHighLevel and custom code." />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
             },
             colors: {
               base: 'var(--bg-base)',
-              section: 'var(--bg-section)',
+              paper: 'var(--bg-base)',
               surface: 'var(--bg-surface)',
-              subtle: 'var(--border-subtle)',
+              line: 'var(--line)',
+              ink: 'var(--ink)',
+              muted: 'var(--muted)',
+              accent: 'var(--accent)',
+              'accent-soft': 'var(--accent-soft)',
+              'accent-ink': 'var(--accent-ink)',
             },
-            animation: {
-              'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'marquee': 'marquee 40s linear infinite',
+            maxWidth: {
+              page: '72rem',
             },
-            keyframes: {
-              fadeInUp: {
-                '0%': { opacity: 0, transform: 'translateY(20px)' },
-                '100%': { opacity: 1, transform: 'translateY(0)' },
-              },
-              marquee: {
-                '0%': { transform: 'translateX(0%)' },
-                '100%': { transform: 'translateX(-50%)' },
-              }
-            }
           },
         },
       }
     </script>
     <style>
       :root {
-        --bg-base: #ffffff;
-        --bg-section: #f9fafb;
-        --bg-surface: #f3f4f6;
-        --border-subtle: #e5e7eb;
+        --bg-base: #f7f8f6;
+        --bg-surface: #ffffff;
+        --line: #e1e5df;
+        --ink: #141815;
+        --muted: #5d655f;
+        --accent: #1f7a4d;
+        --accent-soft: #e3f1e9;
+        --accent-ink: #ffffff;
       }
       .dark {
-        --bg-base: #0B0B0B;
-        --bg-section: #111111;
-        --bg-surface: #161616;
-        --border-subtle: rgba(255, 255, 255, 0.06);
+        --bg-base: #0f1210;
+        --bg-surface: #161a17;
+        --line: #262c28;
+        --ink: #f1f3ef;
+        --muted: #9aa39d;
+        --accent: #4cc48a;
+        --accent-soft: #163424;
+        --accent-ink: #0f1210;
       }
 
       html {
         scroll-behavior: smooth;
       }
-      
-      body {
-        background-color: var(--bg-base);
-        color: #111827; /* Dark text for light mode */
-        overflow-x: hidden; /* Prevent horizontal scrollbars */
-        width: 100%;
-        min-height: 100vh;
-      }
-      .dark body {
-        color: #ffffff;
-      }
-      
-      /* Transitions for theme switching */
-      body, div, section, nav, a, p, h1, h2, h3, h4, span, button {
-        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        transition-duration: 300ms;
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
       }
 
-      /* Custom scrollbar for high-end feel */
-      ::-webkit-scrollbar {
-        width: 8px;
+      body {
+        background-color: var(--bg-base);
+        color: var(--ink);
+        overflow-x: hidden;
+        width: 100%;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
       }
-      ::-webkit-scrollbar-track {
-        background: var(--bg-base);
+
+      a:focus-visible, button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #d1d5db;
-      }
-      .dark ::-webkit-scrollbar-thumb {
-        background: #333;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #9ca3af;
-      }
-      .dark ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+
+      ::selection {
+        background: var(--accent);
+        color: var(--accent-ink);
       }
     </style>
     <script>
-      // Check for saved theme preference or system preference
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (localStorage.theme === 'dark') {
         document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
       }
     </script>
   <script type="importmap">
@@ -109,11 +95,7 @@
     "react/": "https://esm.sh/react@^19.2.3/",
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "gsap": "https://esm.sh/gsap@3.12.5",
-    "gsap/ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger",
-    "gsap/": "https://esm.sh/gsap@^3.14.2/",
-    "three": "https://esm.sh/three@0.171.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
   }
 }
 </script>
