@@ -32,8 +32,8 @@ const About: React.FC = () => {
              <ScrollReveal className="relative h-full min-h-[400px] lg:min-h-full">
                 <div className="absolute inset-0 rounded-3xl overflow-hidden border border-subtle group h-full">
                     <img 
-                        src="https://raw.githubusercontent.com/fredcheenee/portfolio-images/refs/heads/main/about%20me%20image.jpg" 
-                        alt="Fred D. Workspace" 
+                        src="/images/fred.webp" 
+                        alt="Fred D." 
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[20%] group-hover:grayscale-0"
                     />
                     <div className="absolute inset-0 bg-black/10 dark:bg-black/20 transition-opacity duration-500 group-hover:opacity-0"></div>
