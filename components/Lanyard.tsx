@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, extend, useFrame, useThree, type ThreeElement } from '@react-three/fiber';
 import { Environment, Lightformer, RoundedBox } from '@react-three/drei';
@@ -55,7 +55,7 @@ function loadImage(src: string) {
 function toTexture(canvas: HTMLCanvasElement) {
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 8;
+  tex.anisotropy = 16;
   return tex;
 }
 
@@ -110,13 +110,13 @@ function drawFront(photo: HTMLImageElement | null) {
   slot(ctx, BLACK);
 
   // Small header row
-  ctx.fillStyle = '#777777';
-  ctx.font = `600 28px ${FONT}`;
+  ctx.fillStyle = '#333333';
+  ctx.font = `700 36px ${FONT}`;
   ctx.textBaseline = 'alphabetic';
   ctx.textAlign = 'left';
-  ctx.fillText('F R E D I M A T E', 80, 160);
+  ctx.fillText('FREDIMATE', 80, 164);
   ctx.textAlign = 'right';
-  ctx.fillText('N O .  0 0 1', TEX_W - 80, 160);
+  ctx.fillText('NO. 001', TEX_W - 80, 164);
 
   // Photo
   const pw = TEX_W - 160;
@@ -134,20 +134,20 @@ function drawFront(photo: HTMLImageElement | null) {
   // Name and title
   ctx.textAlign = 'left';
   ctx.fillStyle = BLACK;
-  ctx.font = `700 100px ${FONT}`;
-  ctx.fillText('Fred D.', 80, 1080);
-  ctx.fillStyle = '#555555';
-  ctx.font = `500 44px ${FONT}`;
-  ctx.fillText('Automation Specialist', 82, 1146);
+  ctx.font = `700 124px ${FONT}`;
+  ctx.fillText('Fred D.', 76, 1078);
+  ctx.fillStyle = '#222222';
+  ctx.font = `600 62px ${FONT}`;
+  ctx.fillText('Automation Specialist', 80, 1158);
 
   // Rule, barcode and site
   ctx.fillStyle = LINE;
-  ctx.fillRect(80, 1210, TEX_W - 160, 3);
-  barcode(ctx, 80, 1260, 440, 90, BLACK);
+  ctx.fillRect(80, 1216, TEX_W - 160, 3);
+  barcode(ctx, 80, 1262, 440, 90, BLACK);
   ctx.textAlign = 'right';
   ctx.fillStyle = BLACK;
-  ctx.font = `600 34px ${FONT}`;
-  ctx.fillText('fredimate.com', TEX_W - 80, 1318);
+  ctx.font = `700 40px ${FONT}`;
+  ctx.fillText('fredimate.com', TEX_W - 80, 1322);
 
   return toTexture(c);
 }
@@ -164,31 +164,31 @@ function drawBack() {
   slot(ctx, '#3a3a3a');
 
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#9a9a9a';
-  ctx.font = `600 26px ${FONT}`;
-  ctx.fillText('W H A T  I  B U I L D', 80, 220);
+  ctx.fillStyle = '#bbbbbb';
+  ctx.font = `700 36px ${FONT}`;
+  ctx.fillText('WHAT I BUILD', 80, 230);
 
   ctx.fillStyle = WHITE;
-  ctx.font = `700 76px ${FONT}`;
+  ctx.font = `700 84px ${FONT}`;
   ['Lead capture', 'CRM + booking', 'Follow-ups', 'AI agents'].forEach((line, i) => {
-    ctx.fillText(line, 80, 330 + i * 104);
+    ctx.fillText(line, 76, 340 + i * 112);
   });
 
-  ctx.fillStyle = '#9a9a9a';
-  ctx.font = `600 26px ${FONT}`;
-  ctx.fillText('B U I L T  W I T H', 80, 830);
-  ctx.fillStyle = '#e6e6e6';
-  ctx.font = `500 46px ${FONT}`;
-  ctx.fillText('n8n, Make, GoHighLevel', 80, 910);
-  ctx.fillText('and custom code', 80, 974);
+  ctx.fillStyle = '#bbbbbb';
+  ctx.font = `700 36px ${FONT}`;
+  ctx.fillText('BUILT WITH', 80, 860);
+  ctx.fillStyle = WHITE;
+  ctx.font = `600 54px ${FONT}`;
+  ctx.fillText('n8n, Make, GoHighLevel', 80, 945);
+  ctx.fillText('and custom code', 80, 1015);
 
-  ctx.fillStyle = '#333333';
-  ctx.fillRect(80, 1210, TEX_W - 160, 3);
-  barcode(ctx, 80, 1260, 440, 90, WHITE);
+  ctx.fillStyle = '#3a3a3a';
+  ctx.fillRect(80, 1216, TEX_W - 160, 3);
+  barcode(ctx, 80, 1262, 440, 90, WHITE);
   ctx.textAlign = 'right';
   ctx.fillStyle = WHITE;
-  ctx.font = `600 34px ${FONT}`;
-  ctx.fillText('fredimate.com', TEX_W - 80, 1318);
+  ctx.font = `700 40px ${FONT}`;
+  ctx.fillText('fredimate.com', TEX_W - 80, 1322);
 
   return toTexture(c);
 }
@@ -218,10 +218,17 @@ function useBadgeTextures() {
     let cancelled = false;
     (async () => {
       await document.fonts.ready;
+      await Promise.all([`700 100px ${FONT}`, `600 60px ${FONT}`].map((f) => document.fonts.load(f).catch(() => null)));
       const photo = await loadImage('/images/fred.webp');
       const front = drawFront(photo);
       const back = drawBack();
       const band = drawBand();
+      // The card caps are UV-mapped in card units (x from -0.8 to 0.8), so scale the print to fit.
+      // The back is seen from behind, so it is mirrored to read the right way round.
+      front.repeat.set(1 / CARD_W, 1 / CARD_H);
+      front.offset.set(0.5, 0.5);
+      back.repeat.set(-1 / CARD_W, 1 / CARD_H);
+      back.offset.set(0.5, 0.5);
       if (!cancelled) setTex({ front, back, band });
     })();
     return () => {
@@ -246,8 +253,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const dir = new THREE.Vector3();
   const quat = new THREE.Quaternion();
   const normal = new THREE.Vector3();
+  const hook = new THREE.Vector3();
 
   const { width, height } = useThree((s) => s.size);
+  const resolution = useMemo(() => new THREE.Vector2(width, height), [width, height]);
+  const [bandRepeat] = useState(() => new THREE.Vector2(-2, 1));
   const textures = useBadgeTextures();
   const [curve] = useState(
     () => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()])
@@ -259,7 +269,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const flipped = useRef(false);
   const kick = useRef(false);
 
-  const segmentProps: RigidBodyProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
+  const segmentProps = useMemo<RigidBodyProps>(() => ({ type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 }), []);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -297,26 +307,36 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
         const dist = Math.max(0.1, Math.min(1, body.lerped.distanceTo(body.translation())));
         body.lerped.lerp(body.translation(), Math.min(1, delta * (minSpeed + dist * (maxSpeed - minSpeed))));
       });
-      curve.points[0].copy(j3.current.translation());
+      // The strap ends just behind the card, inside the clip holder, read from the card itself.
+      // The ribbon's end cap folds unpredictably frame to frame, so it is kept out of sight:
+      // the clip holder and card cover it, and the ring sits in front so the strap looks threaded.
+      const q = card.current.rotation();
+      quat.set(q.x, q.y, q.z, q.w);
+      hook.set(0, CARD_H / 2 + 0.04, -0.06).applyQuaternion(quat).add(card.current.translation() as THREE.Vector3);
+      curve.points[0].copy(hook);
       curve.points[1].copy(j2.current.lerped!);
       curve.points[2].copy(j1.current.lerped!);
       curve.points[3].copy(fixed.current.translation());
       band.current.geometry.setPoints(curve.getPoints(32));
-      // Torque only works once the card is dynamic again, so the tap kick waits for the next frame
+      // A tap wakes the card so the steering below can turn it
       if (kick.current && !dragged && card.current.bodyType() === 0) {
         kick.current = false;
         card.current.wakeUp();
-        card.current.applyTorqueImpulse({ x: 0, y: 0.3, z: 0 }, true);
       }
-      // Pull the card round to whichever side is chosen. The angle is read from the card's
-      // normal so a full 180 flip has a real target, not just "face the camera".
-      const q = card.current.rotation();
-      quat.set(q.x, q.y, q.z, q.w);
+      // Turn the card to whichever side is chosen. The angle is read from the card's normal so a
+      // full 180 flip has a real target. The spin speed is set in proportion to the remaining
+      // angle, so it slows into place with no overshoot.
       normal.set(0, 0, 1).applyQuaternion(quat);
       const yaw = Math.atan2(normal.x, normal.z);
       const err = wrapPi(yaw - (flipped.current ? Math.PI : 0));
-      ang.copy(card.current.angvel());
-      card.current.setAngvel({ x: ang.x, y: ang.y - err * Math.min(0.5, 9 * delta), z: ang.z }, true);
+      // Only steer while the card is awake. Waking it every frame kept the joints solving
+      // forever, which made the strap end jitter at rest.
+      // Inside a quarter of a degree the steering stops, otherwise its tiny push keeps the
+      // whole chain awake and the strap end twitches instead of settling.
+      if (!card.current.isSleeping()) {
+        ang.copy(card.current.angvel());
+        card.current.setAngvel({ x: ang.x, y: Math.abs(err) < 0.004 ? 0 : THREE.MathUtils.clamp(-err * 9, -10, 10), z: ang.z }, false);
+      }
     }
   });
 
@@ -342,6 +362,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   };
 
   const plastic = { roughness: 0.55, clearcoat: 0.5, clearcoatRoughness: 0.3 };
+  const metal = { color: '#2b2b2b', metalness: 0.95, roughness: 0.3 };
   const [bodyGeometry] = useState(() => {
     const r = CORNER_WORLD;
     const shape = new THREE.Shape();
@@ -358,7 +379,6 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
     shape.quadraticCurveTo(x, y, x + r, y);
     return new THREE.ExtrudeGeometry(shape, { depth: 0.015, bevelEnabled: false });
   });
-  const metal = { color: '#2b2b2b', metalness: 0.95, roughness: 0.3 };
 
   return (
     <>
@@ -381,35 +401,26 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
             onPointerDown={onDown}
             onPointerUp={onUp}
           >
-            {/* Plastic body: white front half, black back half, so the edge matches each side */}
-            <mesh geometry={bodyGeometry} position={[0, 0, 0]} castShadow>
-              <meshPhysicalMaterial color="#f4f4f4" {...plastic} />
+            {/* Two flat halves. The print goes straight onto each half's cap (material 0) and the
+                edge is material 1, so there are no overlapping surfaces to fight over depth. */}
+            <mesh geometry={bodyGeometry} castShadow key={textures ? 'front-print' : 'front-blank'}>
+              <meshPhysicalMaterial attach="material-0" map={textures?.front} color={textures ? '#ffffff' : '#f4f4f4'} {...plastic} />
+              <meshPhysicalMaterial attach="material-1" color="#f4f4f4" {...plastic} />
             </mesh>
             {/* The black side is unlit so it stays black instead of reflecting the light as grey */}
-            <mesh geometry={bodyGeometry} position={[0, 0, -0.015]} castShadow>
-              <meshBasicMaterial color={BLACK} />
+            <mesh geometry={bodyGeometry} position={[0, 0, -0.015]} castShadow key={textures ? 'back-print' : 'back-blank'}>
+              <meshBasicMaterial attach="material-0" map={textures?.back} color={textures ? '#ffffff' : BLACK} />
+              <meshBasicMaterial attach="material-1" color={BLACK} />
             </mesh>
-            {textures && (
-              <>
-                <mesh position={[0, 0, 0.0155]}>
-                  <planeGeometry args={[CARD_W, CARD_H]} />
-                  <meshPhysicalMaterial map={textures.front} transparent {...plastic} />
-                </mesh>
-                <mesh position={[0, 0, -0.0155]} rotation={[0, Math.PI, 0]}>
-                  <planeGeometry args={[CARD_W, CARD_H]} />
-                  <meshBasicMaterial map={textures.back} transparent />
-                </mesh>
-              </>
-            )}
             {/* Clip: a flat strap holder, a ring, and the hook that joins the strap */}
-            <RoundedBox args={[0.36, 0.14, 0.06]} radius={0.02} smoothness={3} position={[0, CARD_H / 2 + 0.05, 0]} castShadow>
+            <RoundedBox args={[0.44, 0.16, 0.1]} radius={0.02} smoothness={3} position={[0, CARD_H / 2 + 0.05, -0.02]} castShadow>
               <meshStandardMaterial {...metal} />
             </RoundedBox>
-            <mesh position={[0, CARD_H / 2 + 0.2, 0]} castShadow>
+            <mesh position={[0, CARD_H / 2 + 0.21, 0.03]} castShadow>
               <torusGeometry args={[0.085, 0.02, 12, 32]} />
               <meshStandardMaterial {...metal} />
             </mesh>
-            <mesh position={[0, CARD_H / 2 + 0.3, 0]} castShadow>
+            <mesh position={[0, CARD_H / 2 + 0.31, 0.03]} castShadow>
               <cylinderGeometry args={[0.035, 0.035, 0.1, 16]} />
               <meshStandardMaterial {...metal} />
             </mesh>
@@ -419,17 +430,17 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       {/* Invisible wall behind the card that only shows the card's shadow */}
       <mesh position={[0, 0, -0.45]} receiveShadow>
         <planeGeometry args={[30, 30]} />
-        <shadowMaterial transparent opacity={0.18} color="#000000" />
+        {/* depthWrite off: the wall is invisible, so it must never hide the card when it swings behind it */}
+        <shadowMaterial transparent opacity={0.18} color="#000000" depthWrite={false} />
       </mesh>
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
-          depthTest={false}
-          resolution={new THREE.Vector2(width, height)}
+          resolution={resolution}
           useMap={textures ? 1 : 0}
           map={textures?.band}
-          repeat={new THREE.Vector2(-2, 1)}
+          repeat={bandRepeat}
           lineWidth={1.05}
         />
       </mesh>
@@ -453,7 +464,7 @@ const Lanyard: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div ref={wrap} className={className}>
       <Canvas
-        camera={{ position: [0, 0, 10], fov: 25 }}
+        camera={{ position: [0, 0, 10], fov: 25, near: 1, far: 60 }}
         flat
         dpr={[1, 2]}
         gl={{ alpha: true, antialias: true }}
