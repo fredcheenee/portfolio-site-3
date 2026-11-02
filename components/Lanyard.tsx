@@ -26,12 +26,15 @@ declare module '@react-three/fiber' {
 // Card size in world units. The textures are drawn at the same ratio.
 const CARD_W = 1.6;
 const CARD_H = 2.25;
-const TEX_W = 800;
-const TEX_H = 1125;
-const GREEN = '#1f7a4d';
-const GREEN_SOFT = '#e3f1e9';
-const INK = '#141815';
-const MUTED = '#5d655f';
+const TEX_W = 1024;
+const TEX_H = 1440;
+const CORNER = 48;
+// Same corner radius on the plastic body so the texture corners line up with it
+const CORNER_WORLD = (CORNER / TEX_W) * CARD_W;
+const BLACK = '#111111';
+const WHITE = '#ffffff';
+const LINE = '#d9d9d9';
+const FONT = 'Inter, system-ui, sans-serif';
 
 type JointBody = RapierRigidBody & { lerped?: THREE.Vector3 };
 
@@ -56,56 +59,95 @@ function toTexture(canvas: HTMLCanvasElement) {
   return tex;
 }
 
-async function drawFront(photo: HTMLImageElement | null) {
+// Black and white version of the photo with a bit more contrast, like a passport print
+function monochrome(photo: HTMLImageElement, w: number, h: number) {
+  const c = document.createElement('canvas');
+  c.width = w;
+  c.height = h;
+  const ctx = c.getContext('2d')!;
+  const scale = Math.max(w / photo.width, h / photo.height);
+  const sw = w / scale;
+  const sh = h / scale;
+  ctx.drawImage(photo, (photo.width - sw) / 2, (photo.height - sh) / 2 - sh * 0.04, sw, sh, 0, 0, w, h);
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const l = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+    const v = Math.max(0, Math.min(255, (l - 128) * 1.18 + 128));
+    d[i] = d[i + 1] = d[i + 2] = v;
+  }
+  ctx.putImageData(img, 0, 0);
+  return c;
+}
+
+// Fake barcode: fixed pattern so it looks the same every load
+function barcode(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, color: string) {
+  const bars = [3, 1, 1, 2, 1, 3, 1, 1, 1, 2, 2, 1, 3, 1, 1, 1, 2, 1, 1, 3, 1, 2, 1, 1, 2, 1, 3, 1, 1, 2, 1, 1, 3, 1, 2, 1, 1, 1, 2, 3, 1, 1];
+  const unit = w / bars.reduce((a, b) => a + b, 0) / 1.6;
+  ctx.fillStyle = color;
+  let cx = x;
+  bars.forEach((b, i) => {
+    if (i % 2 === 0) ctx.fillRect(cx, y, b * unit, h);
+    cx += b * unit * 1.6;
+  });
+}
+
+function slot(ctx: CanvasRenderingContext2D, color: string) {
+  ctx.fillStyle = color;
+  roundRect(ctx, TEX_W / 2 - 100, 44, 200, 34, 17);
+  ctx.fill();
+}
+
+function drawFront(photo: HTMLImageElement | null) {
   const c = document.createElement('canvas');
   c.width = TEX_W;
   c.height = TEX_H;
   const ctx = c.getContext('2d')!;
 
-  ctx.fillStyle = '#ffffff';
-  roundRect(ctx, 0, 0, TEX_W, TEX_H, 40);
+  ctx.fillStyle = WHITE;
+  roundRect(ctx, 0, 0, TEX_W, TEX_H, CORNER);
   ctx.fill();
+  slot(ctx, BLACK);
 
-  // Slot the clip goes through
-  ctx.fillStyle = '#dfe4de';
-  roundRect(ctx, TEX_W / 2 - 80, 40, 160, 26, 13);
-  ctx.fill();
+  // Small header row
+  ctx.fillStyle = '#777777';
+  ctx.font = `600 28px ${FONT}`;
+  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = 'left';
+  ctx.fillText('F R E D I M A T E', 80, 160);
+  ctx.textAlign = 'right';
+  ctx.fillText('N O .  0 0 1', TEX_W - 80, 160);
 
-  ctx.textAlign = 'center';
-  ctx.fillStyle = INK;
-  ctx.font = '700 72px Inter, system-ui, sans-serif';
-  ctx.fillText('Fred D.', TEX_W / 2, 170);
-
-  // Photo, square crop from the centre
-  const size = 520;
-  const px = (TEX_W - size) / 2;
-  const py = 220;
+  // Photo
+  const pw = TEX_W - 160;
+  const ph = 760;
+  const px = 80;
+  const py = 200;
   ctx.save();
-  roundRect(ctx, px, py, size, size, 28);
+  roundRect(ctx, px, py, pw, ph, 20);
   ctx.clip();
-  ctx.fillStyle = GREEN_SOFT;
-  ctx.fillRect(px, py, size, size);
-  if (photo) {
-    const s = Math.min(photo.width, photo.height);
-    ctx.drawImage(photo, (photo.width - s) / 2, (photo.height - s) / 2, s, s, px, py, size, size);
-  }
+  ctx.fillStyle = '#e8e8e8';
+  ctx.fillRect(px, py, pw, ph);
+  if (photo) ctx.drawImage(monochrome(photo, pw, ph), px, py);
   ctx.restore();
 
-  ctx.fillStyle = INK;
-  ctx.font = '600 52px Inter, system-ui, sans-serif';
-  ctx.fillText('Automation', TEX_W / 2, 840);
-  ctx.fillText('Specialist', TEX_W / 2, 902);
+  // Name and title
+  ctx.textAlign = 'left';
+  ctx.fillStyle = BLACK;
+  ctx.font = `700 100px ${FONT}`;
+  ctx.fillText('Fred D.', 80, 1080);
+  ctx.fillStyle = '#555555';
+  ctx.font = `500 44px ${FONT}`;
+  ctx.fillText('Automation Specialist', 82, 1146);
 
-  // Bottom strip
-  ctx.save();
-  roundRect(ctx, 0, 0, TEX_W, TEX_H, 40);
-  ctx.clip();
-  ctx.fillStyle = GREEN;
-  ctx.fillRect(0, TEX_H - 130, TEX_W, 130);
-  ctx.restore();
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '600 40px Inter, system-ui, sans-serif';
-  ctx.fillText('fredimate.com', TEX_W / 2, TEX_H - 52);
+  // Rule, barcode and site
+  ctx.fillStyle = LINE;
+  ctx.fillRect(80, 1210, TEX_W - 160, 3);
+  barcode(ctx, 80, 1260, 440, 90, BLACK);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = BLACK;
+  ctx.font = `600 34px ${FONT}`;
+  ctx.fillText('fredimate.com', TEX_W - 80, 1318);
 
   return toTexture(c);
 }
@@ -116,53 +158,54 @@ function drawBack() {
   c.height = TEX_H;
   const ctx = c.getContext('2d')!;
 
-  ctx.fillStyle = GREEN;
-  roundRect(ctx, 0, 0, TEX_W, TEX_H, 40);
+  ctx.fillStyle = BLACK;
+  roundRect(ctx, 0, 0, TEX_W, TEX_H, CORNER);
   ctx.fill();
-
-  ctx.fillStyle = 'rgba(255,255,255,0.25)';
-  roundRect(ctx, TEX_W / 2 - 80, 40, 160, 26, 13);
-  ctx.fill();
+  slot(ctx, '#3a3a3a');
 
   ctx.textAlign = 'left';
-  ctx.fillStyle = 'rgba(255,255,255,0.7)';
-  ctx.font = '600 34px Inter, system-ui, sans-serif';
-  ctx.fillText('WHAT I BUILD', 80, 190);
+  ctx.fillStyle = '#9a9a9a';
+  ctx.font = `600 26px ${FONT}`;
+  ctx.fillText('W H A T  I  B U I L D', 80, 220);
 
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '700 60px Inter, system-ui, sans-serif';
+  ctx.fillStyle = WHITE;
+  ctx.font = `700 76px ${FONT}`;
   ['Lead capture', 'CRM + booking', 'Follow-ups', 'AI agents'].forEach((line, i) => {
-    ctx.fillText(line, 80, 290 + i * 88);
+    ctx.fillText(line, 80, 330 + i * 104);
   });
 
-  ctx.fillStyle = 'rgba(255,255,255,0.7)';
-  ctx.font = '600 34px Inter, system-ui, sans-serif';
-  ctx.fillText('BUILT WITH', 80, 720);
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '500 44px Inter, system-ui, sans-serif';
-  ctx.fillText('n8n, Make, GoHighLevel', 80, 790);
-  ctx.fillText('and custom code', 80, 850);
+  ctx.fillStyle = '#9a9a9a';
+  ctx.font = `600 26px ${FONT}`;
+  ctx.fillText('B U I L T  W I T H', 80, 830);
+  ctx.fillStyle = '#e6e6e6';
+  ctx.font = `500 46px ${FONT}`;
+  ctx.fillText('n8n, Make, GoHighLevel', 80, 910);
+  ctx.fillText('and custom code', 80, 974);
 
-  ctx.textAlign = 'center';
-  ctx.font = '600 40px Inter, system-ui, sans-serif';
-  ctx.fillText('fredimate.com', TEX_W / 2, TEX_H - 52);
+  ctx.fillStyle = '#333333';
+  ctx.fillRect(80, 1210, TEX_W - 160, 3);
+  barcode(ctx, 80, 1260, 440, 90, WHITE);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = WHITE;
+  ctx.font = `600 34px ${FONT}`;
+  ctx.fillText('fredimate.com', TEX_W - 80, 1318);
 
   return toTexture(c);
 }
 
 function drawBand() {
   const c = document.createElement('canvas');
-  c.width = 1024;
-  c.height = 64;
+  c.width = 2048;
+  c.height = 96;
   const ctx = c.getContext('2d')!;
-  ctx.fillStyle = GREEN;
+  ctx.fillStyle = BLACK;
   ctx.fillRect(0, 0, c.width, c.height);
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '700 30px Inter, system-ui, sans-serif';
+  ctx.fillStyle = WHITE;
+  ctx.font = `700 48px ${FONT}`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
-  ['FREDIMATE', '•', 'AUTOMATION', '•'].forEach((t, i) => {
-    ctx.fillText(t, (c.width / 4) * i + c.width / 8, c.height / 2 + 1);
+  ['F R E D I M A T E', '•', 'A U T O M A T I O N', '•'].forEach((t, i) => {
+    ctx.fillText(t, (c.width / 4) * i + c.width / 8, c.height / 2 + 2);
   });
   const tex = toTexture(c);
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
@@ -176,7 +219,7 @@ function useBadgeTextures() {
     (async () => {
       await document.fonts.ready;
       const photo = await loadImage('/images/fred.webp');
-      const front = await drawFront(photo);
+      const front = drawFront(photo);
       const back = drawBack();
       const band = drawBand();
       if (!cancelled) setTex({ front, back, band });
@@ -188,6 +231,8 @@ function useBadgeTextures() {
   return tex;
 }
 
+const wrapPi = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
+
 function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const band = useRef<THREE.Mesh<MeshLineGeometry, MeshLineMaterial>>(null);
   const fixed = useRef<JointBody>(null);
@@ -198,8 +243,9 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   const vec = new THREE.Vector3();
   const ang = new THREE.Vector3();
-  const rot = new THREE.Vector3();
   const dir = new THREE.Vector3();
+  const quat = new THREE.Quaternion();
+  const normal = new THREE.Vector3();
 
   const { width, height } = useThree((s) => s.size);
   const textures = useBadgeTextures();
@@ -209,7 +255,9 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const [dragged, setDragged] = useState<THREE.Vector3 | false>(false);
   const [hovered, setHovered] = useState(false);
   const downAt = useRef<{ x: number; y: number } | null>(null);
-  const spin = useRef(false);
+  // Which side faces the screen. A tap toggles it and the card stays there until the next tap.
+  const flipped = useRef(false);
+  const kick = useRef(false);
 
   const segmentProps: RigidBodyProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
 
@@ -254,15 +302,21 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       curve.points[2].copy(j1.current.lerped!);
       curve.points[3].copy(fixed.current.translation());
       band.current.geometry.setPoints(curve.getPoints(32));
-      // Torque only works once the card is dynamic again, so the tap spin waits for the next frame
-      if (spin.current && !dragged && card.current.bodyType() === 0) {
-        spin.current = false;
-        card.current.applyTorqueImpulse({ x: 0, y: 0.35, z: 0 }, true);
+      // Torque only works once the card is dynamic again, so the tap kick waits for the next frame
+      if (kick.current && !dragged && card.current.bodyType() === 0) {
+        kick.current = false;
+        card.current.wakeUp();
+        card.current.applyTorqueImpulse({ x: 0, y: 0.3, z: 0 }, true);
       }
-      // Ease the card back to facing the screen
+      // Pull the card round to whichever side is chosen. The angle is read from the card's
+      // normal so a full 180 flip has a real target, not just "face the camera".
+      const q = card.current.rotation();
+      quat.set(q.x, q.y, q.z, q.w);
+      normal.set(0, 0, 1).applyQuaternion(quat);
+      const yaw = Math.atan2(normal.x, normal.z);
+      const err = wrapPi(yaw - (flipped.current ? Math.PI : 0));
       ang.copy(card.current.angvel());
-      rot.copy(card.current.rotation());
-      card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z }, true);
+      card.current.setAngvel({ x: ang.x, y: ang.y - err * Math.min(0.5, 9 * delta), z: ang.z }, true);
     }
   });
 
@@ -278,13 +332,33 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
     e.stopPropagation();
     e.target.releasePointerCapture(e.pointerId);
     setDragged(false);
-    // A tap without a drag spins the card so the back shows
+    // A tap without a drag flips the card to the other side
     const d = downAt.current;
     if (d && Math.hypot(e.clientX - d.x, e.clientY - d.y) < 6) {
-      spin.current = true;
+      flipped.current = !flipped.current;
+      kick.current = true;
     }
     downAt.current = null;
   };
+
+  const plastic = { roughness: 0.55, clearcoat: 0.5, clearcoatRoughness: 0.3 };
+  const [bodyGeometry] = useState(() => {
+    const r = CORNER_WORLD;
+    const shape = new THREE.Shape();
+    const x = -CARD_W / 2;
+    const y = -CARD_H / 2;
+    shape.moveTo(x + r, y);
+    shape.lineTo(x + CARD_W - r, y);
+    shape.quadraticCurveTo(x + CARD_W, y, x + CARD_W, y + r);
+    shape.lineTo(x + CARD_W, y + CARD_H - r);
+    shape.quadraticCurveTo(x + CARD_W, y + CARD_H, x + CARD_W - r, y + CARD_H);
+    shape.lineTo(x + r, y + CARD_H);
+    shape.quadraticCurveTo(x, y + CARD_H, x, y + CARD_H - r);
+    shape.lineTo(x, y + r);
+    shape.quadraticCurveTo(x, y, x + r, y);
+    return new THREE.ExtrudeGeometry(shape, { depth: 0.015, bevelEnabled: false });
+  });
+  const metal = { color: '#2b2b2b', metalness: 0.95, roughness: 0.3 };
 
   return (
     <>
@@ -307,33 +381,46 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
             onPointerDown={onDown}
             onPointerUp={onUp}
           >
-            <RoundedBox args={[CARD_W, CARD_H, 0.02]} radius={0.008} smoothness={2}>
-              <meshPhysicalMaterial color="#ffffff" roughness={0.4} clearcoat={1} clearcoatRoughness={0.15} />
-            </RoundedBox>
+            {/* Plastic body: white front half, black back half, so the edge matches each side */}
+            <mesh geometry={bodyGeometry} position={[0, 0, 0]} castShadow>
+              <meshPhysicalMaterial color="#f4f4f4" {...plastic} />
+            </mesh>
+            {/* The black side is unlit so it stays black instead of reflecting the light as grey */}
+            <mesh geometry={bodyGeometry} position={[0, 0, -0.015]} castShadow>
+              <meshBasicMaterial color={BLACK} />
+            </mesh>
             {textures && (
               <>
-                <mesh position={[0, 0, 0.0105]}>
+                <mesh position={[0, 0, 0.0155]}>
                   <planeGeometry args={[CARD_W, CARD_H]} />
-                  <meshPhysicalMaterial map={textures.front} transparent roughness={0.6} clearcoat={0.4} clearcoatRoughness={0.3} />
+                  <meshPhysicalMaterial map={textures.front} transparent {...plastic} />
                 </mesh>
-                <mesh position={[0, 0, -0.0105]} rotation={[0, Math.PI, 0]}>
+                <mesh position={[0, 0, -0.0155]} rotation={[0, Math.PI, 0]}>
                   <planeGeometry args={[CARD_W, CARD_H]} />
-                  <meshPhysicalMaterial map={textures.back} transparent roughness={0.6} clearcoat={0.4} clearcoatRoughness={0.3} />
+                  <meshBasicMaterial map={textures.back} transparent />
                 </mesh>
               </>
             )}
-            {/* Metal clip */}
-            <mesh position={[0, CARD_H / 2 + 0.06, 0]}>
-              <boxGeometry args={[0.34, 0.16, 0.05]} />
-              <meshStandardMaterial color="#c9ccc8" metalness={0.9} roughness={0.25} />
+            {/* Clip: a flat strap holder, a ring, and the hook that joins the strap */}
+            <RoundedBox args={[0.36, 0.14, 0.06]} radius={0.02} smoothness={3} position={[0, CARD_H / 2 + 0.05, 0]} castShadow>
+              <meshStandardMaterial {...metal} />
+            </RoundedBox>
+            <mesh position={[0, CARD_H / 2 + 0.2, 0]} castShadow>
+              <torusGeometry args={[0.085, 0.02, 12, 32]} />
+              <meshStandardMaterial {...metal} />
             </mesh>
-            <mesh position={[0, CARD_H / 2 + 0.22, 0]}>
-              <torusGeometry args={[0.09, 0.022, 12, 32]} />
-              <meshStandardMaterial color="#c9ccc8" metalness={0.9} roughness={0.25} />
+            <mesh position={[0, CARD_H / 2 + 0.3, 0]} castShadow>
+              <cylinderGeometry args={[0.035, 0.035, 0.1, 16]} />
+              <meshStandardMaterial {...metal} />
             </mesh>
           </group>
         </RigidBody>
       </group>
+      {/* Invisible wall behind the card that only shows the card's shadow */}
+      <mesh position={[0, 0, -0.45]} receiveShadow>
+        <planeGeometry args={[30, 30]} />
+        <shadowMaterial transparent opacity={0.18} color="#000000" />
+      </mesh>
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
@@ -342,8 +429,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
           resolution={new THREE.Vector2(width, height)}
           useMap={textures ? 1 : 0}
           map={textures?.band}
-          repeat={new THREE.Vector2(-4, 1)}
-          lineWidth={1}
+          repeat={new THREE.Vector2(-2, 1)}
+          lineWidth={1.05}
         />
       </mesh>
     </>
@@ -370,10 +457,27 @@ const Lanyard: React.FC<{ className?: string }> = ({ className }) => {
         flat
         dpr={[1, 2]}
         gl={{ alpha: true, antialias: true }}
+        shadows={{ type: THREE.VSMShadowMap }}
         frameloop={visible ? 'always' : 'never'}
         style={{ touchAction: isMobile ? 'pan-y' : 'none' }}
       >
-        <ambientLight intensity={1.1} />
+        <ambientLight intensity={1} />
+        {/* Light from the upper left so the shadow falls down and to the right, like a real badge on a wall */}
+        <directionalLight
+          position={[-1.5, 3, 10]}
+          intensity={0.9}
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+          shadow-radius={10}
+          shadow-blurSamples={16}
+          shadow-bias={-0.0004}
+          shadow-camera-left={-8}
+          shadow-camera-right={8}
+          shadow-camera-top={8}
+          shadow-camera-bottom={-8}
+          shadow-camera-near={1}
+          shadow-camera-far={25}
+        />
         <Physics gravity={[0, -40, 0]} timeStep={isMobile ? 1 / 30 : 1 / 60} paused={!visible}>
           <Band />
         </Physics>
