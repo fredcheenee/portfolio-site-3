@@ -315,7 +315,9 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       // card's own back, so it stays hidden when the card is flipped round.
       const q = card.current.rotation();
       quat.set(q.x, q.y, q.z, q.w);
-      hook.set(0, CARD_H / 2 + 0.04, 0).applyQuaternion(quat).add(card.current.translation() as THREE.Vector3);
+      // The end sits well below the holder's top edge: the ribbon's last segment is about 0.1
+      // long and its fold must stay behind the card too, not just inside the holder.
+      hook.set(0, CARD_H / 2 - 0.25, 0).applyQuaternion(quat).add(card.current.translation() as THREE.Vector3);
       hook.z -= 0.06;
       curve.points[0].copy(hook);
       curve.points[1].copy(j2.current.lerped!);
@@ -417,8 +419,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
               <meshBasicMaterial attach="material-1" color={BLACK} />
             </mesh>
             {/* Clip: a flat strap holder, a ring, and the hook that joins the strap */}
+            {/* The strap passes into this holder. Along that seam both surfaces share a depth and the
+                GPU picks a different winner each frame (a flickering line), so the holder is biased
+                a little toward the camera and always wins. */}
             <RoundedBox args={[0.44, 0.16, 0.16]} radius={0.02} smoothness={3} position={[0, CARD_H / 2 + 0.05, 0]} castShadow>
-              <meshStandardMaterial {...metal} />
+              <meshStandardMaterial {...metal} polygonOffset polygonOffsetFactor={-4} polygonOffsetUnits={-4} />
             </RoundedBox>
             <mesh position={[0, CARD_H / 2 + 0.21, 0]} castShadow>
               <torusGeometry args={[0.085, 0.02, 12, 32]} />
