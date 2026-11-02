@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { scrollToSection, BOOKING_URL } from './scroll';
+
+// three.js is heavy, so the badge loads after the text is on screen
+const Lanyard = lazy(() => import('./Lanyard'));
 
 const Hero: React.FC = () => {
   return (
@@ -34,17 +37,12 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-5 lg:justify-self-end w-full max-w-md lg:max-w-none">
-          <div className="relative">
-            <div className="absolute -inset-3 rounded-[2rem] bg-accent-soft" aria-hidden="true"></div>
-            <img
-              src="/images/fred.webp"
-              alt="Fred, automation specialist"
-              width={960}
-              height={960}
-              className="relative w-full aspect-square object-cover rounded-[1.5rem] border border-line"
-            />
-          </div>
+        {/* Hanging ID badge. On desktop the canvas runs up to the top of the page so the strap comes from under the navbar. */}
+        <div className="lg:col-span-5 relative h-[440px] sm:h-[500px] lg:h-[460px] -mx-6 lg:mx-0">
+          <span className="sr-only">Fred's ID badge: Fred D., Automation Specialist. Drag it around, tap it to flip.</span>
+          <Suspense fallback={null}>
+            <Lanyard className="absolute inset-0 lg:-top-44 lg:-bottom-28 [mask-image:linear-gradient(to_bottom,transparent,black_12%)] lg:[mask-image:none]" />
+          </Suspense>
         </div>
       </div>
     </section>
