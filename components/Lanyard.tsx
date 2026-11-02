@@ -250,7 +250,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   const vec = new THREE.Vector3();
   const ang = new THREE.Vector3();
-  const dir = new THREE.Vector3();
+  const dragPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
   const quat = new THREE.Quaternion();
   const normal = new THREE.Vector3();
   const hook = new THREE.Vector3();
@@ -286,9 +286,11 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 
   useFrame((state, delta) => {
     if (dragged && card.current) {
-      vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
-      dir.copy(vec).sub(state.camera.position).normalize();
-      vec.add(dir.multiplyScalar(state.camera.position.length()));
+      // Where the pointer is on a plane at the card's own depth, so a drag never pushes the
+      // card forward or back (which the rope would then snap back with a hard bounce)
+      state.raycaster.setFromCamera(state.pointer, state.camera);
+      dragPlane.constant = -card.current.translation().z;
+      if (!state.raycaster.ray.intersectPlane(dragPlane, vec)) return;
       [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
       // Keep the card inside the canvas so it never gets cut off at the edge
       const halfW = Math.max(0, state.viewport.width / 2 - CARD_W / 2 - 0.05);
@@ -296,7 +298,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       card.current.setNextKinematicTranslation({
         x: THREE.MathUtils.clamp(vec.x - dragged.x, -halfW, halfW),
         y: THREE.MathUtils.clamp(vec.y - dragged.y, -halfH, halfH),
-        z: vec.z - dragged.z,
+        z: -dragPlane.constant,
       });
     }
     if (fixed.current && j1.current && j2.current && j3.current && card.current && band.current) {
