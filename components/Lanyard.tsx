@@ -310,11 +310,13 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
         body.lerped.lerp(body.translation(), Math.min(1, delta * (minSpeed + dist * (maxSpeed - minSpeed))));
       });
       // The strap ends just behind the card, inside the clip holder, read from the card itself.
-      // The ribbon's end cap folds unpredictably frame to frame, so it is kept out of sight:
-      // the clip holder and card cover it, and the ring sits in front so the strap looks threaded.
+      // The ribbon's end cap folds unpredictably frame to frame, so it is kept out of sight
+      // behind the card and holder. "Behind" is away from the camera in world space, not the
+      // card's own back, so it stays hidden when the card is flipped round.
       const q = card.current.rotation();
       quat.set(q.x, q.y, q.z, q.w);
-      hook.set(0, CARD_H / 2 + 0.04, -0.06).applyQuaternion(quat).add(card.current.translation() as THREE.Vector3);
+      hook.set(0, CARD_H / 2 + 0.04, 0).applyQuaternion(quat).add(card.current.translation() as THREE.Vector3);
+      hook.z -= 0.06;
       curve.points[0].copy(hook);
       curve.points[1].copy(j2.current.lerped!);
       curve.points[2].copy(j1.current.lerped!);
@@ -415,14 +417,14 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
               <meshBasicMaterial attach="material-1" color={BLACK} />
             </mesh>
             {/* Clip: a flat strap holder, a ring, and the hook that joins the strap */}
-            <RoundedBox args={[0.44, 0.16, 0.1]} radius={0.02} smoothness={3} position={[0, CARD_H / 2 + 0.05, -0.02]} castShadow>
+            <RoundedBox args={[0.44, 0.16, 0.16]} radius={0.02} smoothness={3} position={[0, CARD_H / 2 + 0.05, 0]} castShadow>
               <meshStandardMaterial {...metal} />
             </RoundedBox>
-            <mesh position={[0, CARD_H / 2 + 0.21, 0.03]} castShadow>
+            <mesh position={[0, CARD_H / 2 + 0.21, 0]} castShadow>
               <torusGeometry args={[0.085, 0.02, 12, 32]} />
               <meshStandardMaterial {...metal} />
             </mesh>
-            <mesh position={[0, CARD_H / 2 + 0.31, 0.03]} castShadow>
+            <mesh position={[0, CARD_H / 2 + 0.31, 0]} castShadow>
               <cylinderGeometry args={[0.035, 0.035, 0.1, 16]} />
               <meshStandardMaterial {...metal} />
             </mesh>
