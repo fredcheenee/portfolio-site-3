@@ -155,55 +155,61 @@ function drawFront(photo: HTMLImageElement | null) {
   return toTexture(c);
 }
 
-function drawBack() {
+// In light mode the back and strap are black on white; in dark mode the whole badge is
+// white on black, otherwise a black back and strap vanish into the dark page.
+const BACK_LIGHT = { bg: BLACK, fg: WHITE, muted: '#bbbbbb', line: '#3a3a3a', slot: '#3a3a3a' };
+const BACK_DARK = { bg: '#f1f3ef', fg: BLACK, muted: '#555555', line: LINE, slot: '#141815' };
+
+function drawBack(dark: boolean) {
+  const P = dark ? BACK_DARK : BACK_LIGHT;
   const c = document.createElement('canvas');
   c.width = TEX_W;
   c.height = TEX_H;
   const ctx = c.getContext('2d')!;
 
-  ctx.fillStyle = BLACK;
+  ctx.fillStyle = P.bg;
   roundRect(ctx, 0, 0, TEX_W, TEX_H, CORNER);
   ctx.fill();
-  slot(ctx, '#3a3a3a');
+  slot(ctx, P.slot);
 
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#bbbbbb';
+  ctx.fillStyle = P.muted;
   ctx.font = `700 36px ${FONT}`;
   ctx.fillText('WHAT I BUILD', 80, 230);
 
-  ctx.fillStyle = WHITE;
+  ctx.fillStyle = P.fg;
   ctx.font = `700 84px ${FONT}`;
   ['Lead capture', 'CRM + booking', 'Follow-ups', 'AI agents'].forEach((line, i) => {
     ctx.fillText(line, 76, 340 + i * 112);
   });
 
-  ctx.fillStyle = '#bbbbbb';
+  ctx.fillStyle = P.muted;
   ctx.font = `700 36px ${FONT}`;
   ctx.fillText('BUILT WITH', 80, 860);
-  ctx.fillStyle = WHITE;
+  ctx.fillStyle = P.fg;
   ctx.font = `600 54px ${FONT}`;
   ctx.fillText('n8n, Make, GoHighLevel', 80, 945);
   ctx.fillText('and custom code', 80, 1015);
 
-  ctx.fillStyle = '#3a3a3a';
+  ctx.fillStyle = P.line;
   ctx.fillRect(80, 1216, TEX_W - 160, 3);
-  barcode(ctx, 80, 1262, 440, 90, WHITE);
+  barcode(ctx, 80, 1262, 440, 90, P.fg);
   ctx.textAlign = 'right';
-  ctx.fillStyle = WHITE;
+  ctx.fillStyle = P.fg;
   ctx.font = `700 40px ${FONT}`;
   ctx.fillText('fredimate.com', TEX_W - 80, 1322);
 
   return toTexture(c);
 }
 
-function drawBand() {
+function drawBand(dark: boolean) {
   const c = document.createElement('canvas');
   c.width = 2048;
   c.height = 96;
   const ctx = c.getContext('2d')!;
-  ctx.fillStyle = BLACK;
+  ctx.fillStyle = dark ? '#f1f3ef' : BLACK;
   ctx.fillRect(0, 0, c.width, c.height);
-  ctx.fillStyle = WHITE;
+  ctx.fillStyle = dark ? BLACK : WHITE;
   ctx.font = `700 48px ${FONT}`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
@@ -215,7 +221,19 @@ function drawBand() {
   return tex;
 }
 
-function useBadgeTextures() {
+// Follows the site's theme toggle (the "dark" class on <html>)
+function useDarkMode() {
+  const read = () => document.documentElement.classList.contains('dark');
+  const [dark, setDark] = useState(read);
+  useEffect(() => {
+    const mo = new MutationObserver(() => setDark(read()));
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => mo.disconnect();
+  }, []);
+  return dark;
+}
+
+function useBadgeTextures(dark: boolean) {
   const [tex, setTex] = useState<{ front: THREE.Texture; back: THREE.Texture; band: THREE.Texture } | null>(null);
   useEffect(() => {
     let cancelled = false;
@@ -224,8 +242,8 @@ function useBadgeTextures() {
       await Promise.all([`700 100px ${FONT}`, `600 60px ${FONT}`].map((f) => document.fonts.load(f).catch(() => null)));
       const photo = await loadImage('/images/fred.webp');
       const front = drawFront(photo);
-      const back = drawBack();
-      const band = drawBand();
+      const back = drawBack(dark);
+      const band = drawBand(dark);
       // The card caps are UV-mapped in card units (x from -0.8 to 0.8), so scale the print to fit.
       // The back is seen from behind, so it is mirrored to read the right way round.
       front.repeat.set(1 / CARD_W, 1 / CARD_H);
@@ -237,7 +255,7 @@ function useBadgeTextures() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [dark]);
   return tex;
 }
 
@@ -261,7 +279,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const { width, height } = useThree((s) => s.size);
   const resolution = useMemo(() => new THREE.Vector2(width, height), [width, height]);
   const [bandRepeat] = useState(() => new THREE.Vector2(-2, 1));
-  const textures = useBadgeTextures();
+  const dark = useDarkMode();
+  const textures = useBadgeTextures(dark);
   const [curve] = useState(
     () => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()])
   );
@@ -369,7 +388,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   };
 
   const plastic = { roughness: 0.55, clearcoat: 0.5, clearcoatRoughness: 0.3 };
-  const metal = { color: '#2b2b2b', metalness: 0.95, roughness: 0.3 };
+  const metal = { color: dark ? '#d9dcd8' : '#2b2b2b', metalness: 0.95, roughness: 0.3 };
+  const backColor = dark ? '#f1f3ef' : BLACK;
   const [bodyGeometry] = useState(() => {
     const r = CORNER_WORLD;
     const shape = new THREE.Shape();
@@ -415,9 +435,9 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
               <meshPhysicalMaterial attach="material-1" color="#f4f4f4" {...plastic} />
             </mesh>
             {/* The black side is unlit so it stays black instead of reflecting the light as grey */}
-            <mesh geometry={bodyGeometry} position={[0, 0, -0.015]} castShadow key={textures ? 'back-print' : 'back-blank'}>
-              <meshBasicMaterial attach="material-0" map={textures?.back} color={textures ? '#ffffff' : BLACK} />
-              <meshBasicMaterial attach="material-1" color={BLACK} />
+            <mesh geometry={bodyGeometry} position={[0, 0, -0.015]} castShadow key={`${textures ? 'back-print' : 'back-blank'}-${dark}`}>
+              <meshBasicMaterial attach="material-0" map={textures?.back} color={textures ? '#ffffff' : backColor} />
+              <meshBasicMaterial attach="material-1" color={backColor} />
             </mesh>
             {/* Clip: a flat strap holder, a ring, and the hook that joins the strap */}
             {/* The strap passes into this holder. Along that seam both surfaces share a depth and the
