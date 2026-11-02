@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { Canvas, extend, useFrame, useThree, type ThreeElement } from '@react-three/fiber';
+import { Canvas, events, extend, useFrame, useThree, type ThreeElement } from '@react-three/fiber';
 import { Environment, Lightformer, RoundedBox } from '@react-three/drei';
 import {
   BallCollider,
@@ -26,6 +26,9 @@ declare module '@react-three/fiber' {
 // Card size in world units. The textures are drawn at the same ratio.
 const CARD_W = 1.6;
 const CARD_H = 2.25;
+// How far a drag may take the card from the centre, in world units
+const DRAG_X = 0.7;
+const DRAG_Y = 1.1;
 const TEX_W = 1024;
 const TEX_H = 1440;
 const CORNER = 48;
@@ -292,12 +295,10 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       dragPlane.constant = -card.current.translation().z;
       if (!state.raycaster.ray.intersectPlane(dragPlane, vec)) return;
       [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
-      // Keep the card inside the canvas so it never gets cut off at the edge
-      const halfW = Math.max(0, state.viewport.width / 2 - CARD_W / 2 - 0.05);
-      const halfH = Math.max(0, state.viewport.height / 2 - CARD_H / 2 - 0.05);
+      // Keep a drag near the badge's own column; after release it may swing as far as it likes
       card.current.setNextKinematicTranslation({
-        x: THREE.MathUtils.clamp(vec.x - dragged.x, -halfW, halfW),
-        y: THREE.MathUtils.clamp(vec.y - dragged.y, -halfH, halfH),
+        x: THREE.MathUtils.clamp(vec.x - dragged.x, -DRAG_X, DRAG_X),
+        y: THREE.MathUtils.clamp(vec.y - dragged.y, -DRAG_Y, DRAG_Y),
         z: -dragPlane.constant,
       });
     }
@@ -470,8 +471,20 @@ const Lanyard: React.FC<{ className?: string }> = ({ className }) => {
     return () => io.disconnect();
   }, []);
 
+  // The canvas is much wider than the badge's column so a hard swing is never cut off at its
+  // edge. It must not swallow clicks on the text under it, so the canvas itself ignores the
+  // pointer and the scene listens on the page body instead, mapping positions onto the canvas.
+  const makeEvents = (store: Parameters<typeof events>[0]) => ({
+    ...events(store),
+    compute: (event: { clientX: number; clientY: number }, state: { gl: THREE.WebGLRenderer; pointer: THREE.Vector2; raycaster: THREE.Raycaster; camera: THREE.Camera }) => {
+      const rect = state.gl.domElement.getBoundingClientRect();
+      state.pointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
+      state.raycaster.setFromCamera(state.pointer, state.camera);
+    },
+  });
+
   return (
-    <div ref={wrap} className={className}>
+    <div ref={wrap} className={className} style={{ pointerEvents: 'none' }}>
       <Canvas
         camera={{ position: [0, 0, 10], fov: 25, near: 1, far: 60 }}
         flat
@@ -479,7 +492,9 @@ const Lanyard: React.FC<{ className?: string }> = ({ className }) => {
         gl={{ alpha: true, antialias: true }}
         shadows={{ type: THREE.VSMShadowMap }}
         frameloop={visible ? 'always' : 'never'}
-        style={{ touchAction: isMobile ? 'pan-y' : 'none' }}
+        eventSource={document.body}
+        events={makeEvents}
+        style={{ pointerEvents: 'none' }}
       >
         <ambientLight intensity={1} />
         {/* Light from the upper left so the shadow falls down and to the right, like a real badge on a wall */}

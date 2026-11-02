@@ -37,11 +37,13 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Hanging ID badge. On desktop the canvas runs up to the top of the page so the strap comes from under the navbar. */}
-        <div className="lg:col-span-5 relative h-[440px] sm:h-[500px] lg:h-[460px] -mx-6 lg:mx-0">
+        {/* Hanging ID badge. On desktop the canvas runs up to the top of the page so the strap comes from under
+            the navbar, and far out to both sides so a hard swing is never cut off. The canvas lets clicks through,
+            so only this column's own box takes the touch-action rule that stops horizontal drags from scrolling. */}
+        <div className="lg:col-span-5 relative h-[440px] sm:h-[500px] lg:h-[460px] -mx-6 lg:mx-0 [touch-action:pan-y]">
           <span className="sr-only">Fred's ID badge: Fred D., Automation Specialist. Drag it around, tap it to flip.</span>
           <Suspense fallback={null}>
-            <Lanyard className="absolute inset-0 lg:-top-44 lg:-bottom-28 [mask-image:linear-gradient(to_bottom,transparent,black_12%)] lg:[mask-image:none]" />
+            <Lanyard className="absolute inset-0 lg:-top-44 lg:-bottom-28 lg:-inset-x-[24rem] [mask-image:linear-gradient(to_bottom,transparent,black_12%)] lg:[mask-image:none]" />
           </Suspense>
         </div>
       </div>
